@@ -3,7 +3,7 @@
 #include "simulation_config/user_functions.n++"
 
 int main() {
-	size_t i, j, I; // General use counters.
+	size_t i, j, I; // General purpose counters.
 	ofstream ofile; // Output file stream.
 	string gpstr; // General purpose string.
 	string path_str;
@@ -113,6 +113,6 @@ void print_percentage(size_t i, size_t I) {
 	cerr << setfill('0') << setw(2) << (i*100)/I << " %";
 }
 
-void asd(int i) { // For debugging puurposes.
-	cerr << WARNING_MSG << "llegué " << i << endl;
+void asd(int i) { // For debugging purposes.
+	cerr << WARNING_MSG << "I'm here " << i << endl;
 }
