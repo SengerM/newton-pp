@@ -1,6 +1,6 @@
 #include "main.h"
 
-#include "user_functions.n++"
+#include "simulation_config/user_functions.n++"
 
 int main() {
 	size_t i, j, I; // General use counters.
@@ -31,18 +31,18 @@ int main() {
 	gpstr.append(path_str);
 	system(gpstr.c_str()); // Creates a new directory in wich to store all the information.
 	
-	#include "user_macros.n++"
+	#include "simulation_config/user_macros.n++"
 	// Particles ----------------------------------------
 	cerr << "Creating and configuring particles... " << endl;
-	#include "user_particles.n++"
+	#include "simulation_config/user_particles.n++"
 	// ----------------------------------------------------
 	// FORCES ----------------------------------------- //
 	cerr << "Creating and configuring forces... " << endl;
-	#include "user_forces.n++" // In this file is where the user has to define the forces.
+	#include "simulation_config/user_forces.n++" // In this file is where the user has to define the forces.
 	// ------------------------------------------------ //
 	// System of particles ----------------------------- //
 	cerr << "Creating and configuring system of particles..." << endl;
-	#include "user_system.n++"
+	#include "simulation_config/user_system.n++"
 	sys.CalcForces(); // Calculates the forces to their initial value.
 	// ----------------------------------------------------
 	// Print initial conditions and configuration information text file -----
