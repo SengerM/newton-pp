@@ -16,21 +16,6 @@ with open('../simulation_results/2019_05_06_17_55_58/simulation_output.txt') as 
 		crystal.append(crystal_now)
 		particle.append([float(i) for i in row[-3:]])
 
-# ~ PLOT_TIME = 20
-# ~ fig, ax = plt.subplots()
-# ~ for idx, particle_coords in enumerate(crystal[PLOT_TIME]):
-	# ~ ax.plot(
-		# ~ [particle_coords[0]],
-		# ~ [particle_coords[1]],
-		# ~ marker = '.',
-		# ~ color = [idx/len(crystal[PLOT_TIME]),0,0]
-	# ~ )
-# ~ ax.plot(
-	# ~ [particle[PLOT_TIME][0]],
-	# ~ [particle[PLOT_TIME][1]],
-	# ~ marker = '.',
-	# ~ color = [0,0,.6]
-# ~ )
 particles_x = [p[0] for p in crystal[0]]
 particles_x.append(particle[0][0])
 particles_y = [p[1] for p in crystal[0]]
@@ -39,9 +24,11 @@ fig, ax = plt.subplots()
 scat = ax.scatter(
 	x = particles_x,
 	y = particles_y,
-	c = [(0,0,0)]*len(crystal[0]) + [(.7,0,0)]
+	c = [(.3,.3,.3)]*len(crystal[0]) + [(.7,0,0)]
 )
 ax.axis('equal')
+ax.axis('off')
+fig.patch.set_facecolor('black')
 
 def update(frame_number):
 	particles_x = [p[0] for p in crystal[frame_number]]
