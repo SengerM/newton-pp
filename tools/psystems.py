@@ -15,19 +15,19 @@ class crystal_and_particle:
 	and an individual particle that hits the crystal.
 	This is a "psystem" type class.
 	"""
-	def __init__(self, filename):
+	def __init__(self, data):
 		self.time = []
 		self.crystal = []
 		self.particle = []
-		with open(filename) as csvfile:
-			readCSV = csv.reader(csvfile, delimiter='\t')
-			for row in readCSV:
-				self.time.append(row[0])
-				crystal_now = []
-				for k in range(int((len(row)-1-3)/3)):
-					crystal_now.append([float(i) for i in row[1+3*k:1+3*k+3]])
-				self.crystal.append(crystal_now)
-				self.particle.append([float(i) for i in row[-3:]])
+		# ~ with open(filename) as csvfile:
+			# ~ readCSV = csv.reader(csvfile, delimiter='\t')
+		for row in data:
+			self.time.append(row[0])
+			crystal_now = []
+			for k in range(int((len(row)-1-3)/3)):
+				crystal_now.append([float(i) for i in row[1+3*k:1+3*k+3]])
+			self.crystal.append(crystal_now)
+			self.particle.append([float(i) for i in row[-3:]])
 	
 	def get_crystal_x(self, frame):
 		return [p[0] for p in self.crystal[frame]]
@@ -89,6 +89,19 @@ def animate_system(psystem):
 	animation = FuncAnimation(fig, update, interval=1, save_count=psystem.nframes())
 	return animation
 
+def plot_snapshot(psystem, frame):
+	fig, ax = plt.subplots()
+	scat = ax.scatter(
+		x = psystem.get_scatter_x(frame),
+		y = psystem.get_scatter_y(frame),
+		c = psystem.get_scatter_color(frame),
+		s = 2
+	)
+	ax.axis('equal')
+	ax.axis('off')
+	fig.patch.set_facecolor('black')
+	return fig, ax
+
 def plot_snapshots(psystem, n_snapshots=4):
 	"""
 	This functions plots snapshots and return the figures.
@@ -98,15 +111,6 @@ def plot_snapshots(psystem, n_snapshots=4):
 	for k in range(n_snapshots):
 		frame_number = int((psystem.nframes()-1)*float(k)/float(n_snapshots))
 		frame_numbers.append(frame_number)
-		fig, ax = plt.subplots()
-		scat = ax.scatter(
-			x = psystem.get_scatter_x(frame_number),
-			y = psystem.get_scatter_y(frame_number),
-			c = psystem.get_scatter_color(frame_number),
-			s = 2
-		)
-		ax.axis('equal')
-		ax.axis('off')
-		fig.patch.set_facecolor('black')
+		fig, ax = plot_snapshot(psystem, frame_number)
 		figs.append(fig)
 	return figs, frame_numbers
