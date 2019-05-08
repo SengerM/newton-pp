@@ -4,26 +4,24 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import matplotlib.animation as mpl_animation
 import os
-import readers
+import psystems
 
-simulation_number = '2019_05_08_11_59_45'#os.listdir('simulation_results')[-1]
+simulation_number = '2019_05_08_11_25_44'#os.listdir('simulation_results')[-1]
 
 print('Reading data...')
-time, particle, crystal = readers.particle_vs_crystal('../simulation_results/' + simulation_number + '/simulation_output.txt')
+system = psystems.crystal_and_particle('../simulation_results/' + simulation_number + '/simulation_output.txt')
 print('Data has been loaded')
 print('Plotting...')
 
 frame_numbers = []
 for k in range(NUMBER_OF_SNAPSHOTS):
-	frame_number = int((len(time)-1)*float(k)/float(NUMBER_OF_SNAPSHOTS))
+	frame_number = int((system.nframes()-1)*float(k)/float(NUMBER_OF_SNAPSHOTS))
 	frame_numbers.append(frame_number)
-	particles_x = [p[0] for p in crystal[frame_number]] + [particle[frame_number][0]]
-	particles_y = [p[1] for p in crystal[frame_number]] + [particle[frame_number][1]]
 	fig, ax = plt.subplots()
 	scat = ax.scatter(
-		x = particles_x,
-		y = particles_y,
-		c = [(.3,.3,.8)]*len(crystal[0]) + [(.7,0,0)],
+		x = system.get_scatter_x(frame_number),
+		y = system.get_scatter_y(frame_number),
+		c = system.get_scatter_color(frame_number),
 		s = 2
 	)
 	ax.axis('equal')
