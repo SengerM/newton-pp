@@ -88,3 +88,25 @@ def animate_system(psystem):
 	
 	animation = FuncAnimation(fig, update, interval=1, save_count=psystem.nframes())
 	return animation
+
+def plot_snapshots(psystem, n_snapshots=4):
+	"""
+	This functions plots snapshots and return the figures.
+	"""
+	frame_numbers = []
+	figs = []
+	for k in range(n_snapshots):
+		frame_number = int((psystem.nframes()-1)*float(k)/float(n_snapshots))
+		frame_numbers.append(frame_number)
+		fig, ax = plt.subplots()
+		scat = ax.scatter(
+			x = psystem.get_scatter_x(frame_number),
+			y = psystem.get_scatter_y(frame_number),
+			c = psystem.get_scatter_color(frame_number),
+			s = 2
+		)
+		ax.axis('equal')
+		ax.axis('off')
+		fig.patch.set_facecolor('black')
+		figs.append(fig)
+	return figs, frame_numbers
