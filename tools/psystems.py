@@ -52,7 +52,7 @@ class crystal_and_particle:
 		return new_colors
 	
 	def get_particle_color(self, frame):
-		return (.8,0,0)
+		return (1,0,0)
 	
 	def get_scatter_x(self, frame):
 		return self.get_crystal_x(frame) + [self.get_particle_x(frame)]
