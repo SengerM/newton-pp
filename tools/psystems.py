@@ -1,4 +1,6 @@
 import csv
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
 
 def boundrange(number, min=0, max=1):
 	if number < min:
@@ -11,6 +13,7 @@ class crystal_and_particle:
 	"""
 	This class is intended to store data of a crystal composed by N particles
 	and an individual particle that hits the crystal.
+	This is a "psystem" type class.
 	"""
 	def __init__(self, filename):
 		self.time = []
@@ -63,3 +66,25 @@ class crystal_and_particle:
 	
 	def nframes(self):
 		return len(self.time)
+
+def animate_system(psystem):
+	"""
+	This function receives a "psystem" type object and returns an animation.
+	"""
+	fig, ax = plt.subplots()
+	scat = ax.scatter(
+		x = psystem.get_scatter_x(0),
+		y = psystem.get_scatter_y(0),
+		c = psystem.get_scatter_color(0),
+		s = 2
+	)
+	ax.axis('equal')
+	ax.axis('off')
+	fig.patch.set_facecolor('black')
+	
+	def update(frame_number):
+		scat.set_offsets([[psystem.get_scatter_x(frame_number)[i], psystem.get_scatter_y(frame_number)[i]] for i in range(len(psystem.get_scatter_x(frame_number)))])
+		scat.set_color(psystem.get_scatter_color(frame_number))
+	
+	animation = FuncAnimation(fig, update, interval=1, save_count=psystem.nframes())
+	return animation
