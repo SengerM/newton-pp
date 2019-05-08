@@ -9,10 +9,10 @@ import matplotlib.animation as mpl_animation
 import os
 import readers
 
-simulation_number = os.listdir('../simulation_results')[-1]
+simulation_number = os.listdir('simulation_results')[-1]
 
 print('Reading data...')
-time, particle, crystal = readers.particle_vs_crystal('../simulation_results/' + simulation_number + '/simulation_output.txt')
+time, particle, crystal = readers.particle_vs_crystal('simulation_results/' + simulation_number + '/simulation_output.txt')
 print('Data has been loaded')
 print('Plotting...')
 particles_x = [p[0] for p in crystal[0]] + [particle[0][0]]
@@ -56,7 +56,7 @@ animation = FuncAnimation(fig, update, interval=1, save_count=len(time))
 
 print('Saving video file...')
 animation.save(
-	'../simulation_results/' + simulation_number + '/animation.mp4', 
+	'simulation_results/' + simulation_number + '/animation.mp4', 
 	fps = 30,
 	savefig_kwargs = {'facecolor':'black'},
 )
