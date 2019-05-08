@@ -1,34 +1,19 @@
-import csv
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import matplotlib.animation as mpl_animation
+import os
+import readers
 
-SIMULATIONS = [
-	'2019_05_06_17_55_58',
-	'2019_05_07_18_33_26',
-	'2019_05_07_18_36_29',
-	'2019_05_07_18_59_35',
-]
 
-SIMULATION_TO_ANIMATE = 2
 
-def read_csv_particle_vs_crystal(filename):
-	time = []
-	crystal = []
-	particle = []
-	with open('../simulation_results/' + filename + '/simulation_output.txt') as csvfile:
-		readCSV = csv.reader(csvfile, delimiter='\t')
-		for row in readCSV:
-			time.append(row[0])
-			crystal_now = []
-			for k in range(int((len(row)-1-3)/3)):
-				crystal_now.append([float(i) for i in row[1+3*k:1+3*k+3]])
-			crystal.append(crystal_now)
-			particle.append([float(i) for i in row[-3:]])
-	return time, particle, crystal
+SIMULATIONS = os.listdir('../simulation_results')
+
+SIMULATION_TO_ANIMATE = len(SIMULATIONS)-1
+
+
 
 print('Reading data...')
-time, particle, crystal = read_csv_particle_vs_crystal(SIMULATIONS[SIMULATION_TO_ANIMATE])
+time, particle, crystal = readers.particle_vs_crystal(SIMULATIONS[SIMULATION_TO_ANIMATE])
 print('Data has been loaded')
 print('Plotting...')
 particles_x = [p[0] for p in crystal[0]] + [particle[0][0]]
