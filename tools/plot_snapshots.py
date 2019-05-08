@@ -6,7 +6,11 @@ import matplotlib.animation as mpl_animation
 import os
 import psystems
 
-simulation_number = '2019_05_08_11_25_44'#os.listdir('simulation_results')[-1]
+simulation_number = os.listdir('../simulation_results')
+simulation_number.sort()
+simulation_number = simulation_number[-1]
+
+print(simulation_number)
 
 print('Reading data...')
 system = psystems.crystal_and_particle('../simulation_results/' + simulation_number + '/simulation_output.txt')
