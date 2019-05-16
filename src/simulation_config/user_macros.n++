@@ -1,5 +1,6 @@
-#define N_PARTICLES_PER_LAYER 10
-#define N_LAYERS 3
-#define OBJECTIVE_PARTICLES_RADIUS 1
-#define INCIDENCE_ANGLE (10.0*3.14/180.0)
-#define PROJECTILE_INITIAL_SPEED 300.0
+#define _r0_ 1
+#define _r1_ 3
+#define _El_ -1
+#define _Eh_ 5
+
+#define PARTICLES_MASS .3

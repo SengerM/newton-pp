@@ -2,11 +2,31 @@
 
 using namespace std;
 
+Vec3D bonding0(Particle &a, Particle &b, std::vector<void*> & params) {
+	/*
+	Information nedeed to construct the «Force» object:
+	* size_t param_number: 4.
+	* bool is_f: false (this is a classical force, not a force due to a field).
+	*/
+	double 	r0 = *((double*)params[0]), // Position of the minimum of potential.
+			r1 = *((double*)params[1]), // Position beyond no force acts.
+			El = *((double*)params[2]), // Minimum of energy.
+			Eh = *((double*)params[1]); // Maximum of energy.
+	Vec3D vec;
+	vec = (b.Position() - a.Position());
+	double distance = vec.Abs();
+	if (distance > r1)
+		return Vec3D(0,0,0);
+	if (distance > r0)
+		return vec*(-El/(r1-r0)/vec.Abs());
+	return vec*(-(Eh-El)/r0/vec.Abs());
+}
+
 Vec3D elastic_force(Particle &a, Particle &b, std::vector<void*> & params) {
 	/*
 	Information nedeed to construct the «Force» object:
 	* size_t param_number: 2 (first «k» and second «length»).
-	* bool is_f: false (this is a classicla force, not a force due to a field).
+	* bool is_f: false (this is a classical force, not a force due to a field).
 	*/
 	Vec3D vec;
 	double 	k = *((double*)params[0]), // Elastic constant of the spring.
