@@ -1,27 +1,21 @@
-NUMBER_OF_SNAPSHOTS = 4
-
-import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation
-import matplotlib.animation as mpl_animation
+from argparse import ArgumentParser
 import os
-import psystems
+import psystems as psys
+import matplotlib.pyplot as plt
 
-simulation_number = os.listdir('../simulation_results')
-simulation_number.sort()
-simulation_number = simulation_number[-1]
+parser = ArgumentParser()
+parser.add_argument('isimpath', help='directory containing the output data of newton++')
 
-print(simulation_number)
+args = parser.parse_args()
 
-print('Reading data...')
-system = psystems.crystal_and_particle('../simulation_results/' + simulation_number + '/simulation_output.txt')
-print('Data has been loaded')
+system = psys.crystal_and_particle(args.isimpath + '/simulation_output.txt')
 print('Plotting...')
-figs, frame_numbers = psystems.plot_snapshots(system)
+figs, frame_numbers = psys.plot_snapshots(system)
 print('Saving images...')
-if 'snapshots' not in os.listdir('../simulation_results/' + simulation_number):
-	os.mkdir('../simulation_results/' + simulation_number + '/snapshots')
+if 'snapshots' not in os.listdir(args.isimpath):
+	os.mkdir(args.isimpath + '/snapshots')
 for idx,fig in enumerate(figs):
 	fig.savefig(
-		'../simulation_results/' + simulation_number + '/snapshots/frame_' + str(frame_numbers[idx]) + '.png',
+		args.isimpath + '/snapshots/frame_' + str(frame_numbers[idx]) + '.png',
 		facecolor = (0,0,0)
 	)
