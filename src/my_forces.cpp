@@ -19,7 +19,9 @@ Vec3D bonding0(Particle &a, Particle &b, std::vector<void*> & params) {
 		return Vec3D(0,0,0);
 	if (distance > r0)
 		return vec*(-El/(r1-r0)/vec.Abs());
-	return vec*(-(Eh-El)/r0/vec.Abs());
+	if (distance > 0)
+		return vec*(-(Eh-El)/r0/vec.Abs());
+	return Vec3D(0,0,0);
 }
 
 Vec3D elastic_force(Particle &a, Particle &b, std::vector<void*> & params) {

@@ -1,10 +1,8 @@
-vector<Particle> particles(2);
+vector<Particle> particles(N_PARTICLES);
 
-particles[0] = Particle();
-particles[1] = Particle();
-
-particles[0].Mass() = PARTICLES_MASS;
-particles[1].Mass() = PARTICLES_MASS;
-particles[0].Position() = Vec3D(-1,0,0);
-particles[1].Position() = Vec3D(1,0,0);
+for (j=0; j<N_PARTICLES; j++) {
+	particles[j] = Particle();
+	particles[j].Mass() = PARTICLES_MASS;
+	particles[j].Position() = Vec3D(random_double(-3,3),random_double(-3,3),0);
+}
 

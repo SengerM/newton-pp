@@ -1,8 +1,13 @@
 ParticleSystem sys;
 
-sys.AddParticle(particles[0]);
-sys.AddParticle(particles[1]);
+for (j=0; j<N_PARTICLES; j++) {
+	sys.AddParticle(particles[j]);
+}
 
-sys.AddInteraction(particles[0], particles[1], interaction);
-sys.AddInteraction(particles[1], particles[0], interaction);
-
+for (j=0; j<N_PARTICLES; j++) {
+	for (unsigned int k=0; k<N_PARTICLES; k++) {
+		if (k == j)
+			continue;
+		sys.AddInteraction(particles[j], particles[k], interaction);
+	}
+}

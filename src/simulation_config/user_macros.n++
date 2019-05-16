@@ -1,6 +1,10 @@
+#include <cstdlib>
+
+#define N_PARTICLES 50
+
 #define _r0_ 1
 #define _r1_ 3
 #define _El_ -1
 #define _Eh_ 5
 
-#define PARTICLES_MASS .3
+#define PARTICLES_MASS .01
