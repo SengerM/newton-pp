@@ -8,10 +8,7 @@ parser.add_argument('isimpath', help='directory containing the output data of ne
 
 args = parser.parse_args()
 
-print('Reading data...')
 system = psys.crystal_and_particle(args.isimpath + '/simulation_output.txt')
-print('Data has been loaded')
-print('Creating animation...')
 animation = psys.animate_system(system)
 
 plt.show()
