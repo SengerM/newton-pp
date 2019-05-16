@@ -1,11 +1,15 @@
+from argparse import ArgumentParser
 import os
 import psystems as psys
 import matplotlib.pyplot as plt
 
-simulation_number = '2019_05_08_11_25_44'#os.listdir('simulation_results')[-1]
+parser = ArgumentParser()
+parser.add_argument('isimpath', help='directory containing the output data of newton++')
+
+args = parser.parse_args()
 
 print('Reading data...')
-system = psys.crystal_and_particle('../simulation_results/' + simulation_number + '/simulation_output.txt')
+system = psys.crystal_and_particle(args.isimpath + '/simulation_output.txt')
 print('Data has been loaded')
 print('Creating animation...')
 animation = psys.animate_system(system)
