@@ -8,3 +8,22 @@ interaction.AddParameter(&r1);
 interaction.AddParameter(&El);
 interaction.AddParameter(&Eh);
 
+vector<Force> walls {
+	Force("wall in positive x", conswall, 3, true),
+	Force("wall in negative x", conswall, 3, true),
+	Force("wall in positive y", conswall, 3, true),
+	Force("wall in negative y", conswall, 3, true)
+};
+double	x0 = WALL_DEPTH;
+vector<Vec3D> wall_positions(4);
+wall_positions[0] = Vec3D(BOX_DIAMETER/2, 0, 0),
+wall_positions[1] = Vec3D(-BOX_DIAMETER/2, 0, 0),
+wall_positions[2] = Vec3D(0, BOX_DIAMETER, 0),
+wall_positions[3] = Vec3D(0, -BOX_DIAMETER, 0);
+vector<Vec3D> wall_orientations(4);
+for (j=0; j<4; j++) {
+	wall_orientations[j] = wall_positions[j]/wall_positions[j].Abs();
+	walls[j].AddParameter(&x0);
+	walls[j].AddParameter(&wall_positions[j]);
+	walls[j].AddParameter(&wall_orientations[j]);
+}

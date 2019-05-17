@@ -124,6 +124,8 @@ def animate_system(psystem):
 	ax.axis('equal')
 	ax.axis('off')
 	fig.patch.set_facecolor('black')
+	ax.set_xlim(-2, 2)
+	ax.set_ylim(-2, 2)
 	
 	def update(frame_number):
 		scat.set_offsets([[psystem.get_scatter_x(frame_number)[i], psystem.get_scatter_y(frame_number)[i]] for i in range(len(psystem.get_scatter_x(frame_number)))])

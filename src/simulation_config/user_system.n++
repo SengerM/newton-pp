@@ -10,4 +10,6 @@ for (j=0; j<N_PARTICLES; j++) {
 			continue;
 		sys.AddInteraction(particles[j], particles[k], interaction);
 	}
+	for (unsigned int k=0; k<4; k++)
+		sys.AddInteraction(particles[j], walls[k]);
 }

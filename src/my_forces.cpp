@@ -154,3 +154,18 @@ Vec3D uniform_magnetic_field(Particle &a, Particle &b, std::vector<void*> & para
 	return (a.Velocity()*B)*a.Charge();
 }
 
+Vec3D conswall(Particle &a, Particle &b, std::vector<void*> & params) {
+	/*
+	Information nedeed to construct the «Force» object:
+	* size_t param_number: 3.
+	* bool is_f: true (this force acts only on one particle).
+	*/
+	double 	x0 = *((double*)params[0]); // Depth of the wall.
+	Vec3D	p = *((Vec3D*)params[1]); // Position of the wall.
+	Vec3D	w = *((Vec3D*)params[2]); // Orientation of the wall (pointing inside the wall).
+	double d = (a.Position() - p).Dot(w);
+	if (d < 0)
+		return Vec3D(0,0,0);
+	else
+		return w*(-exp(d/x0));
+}

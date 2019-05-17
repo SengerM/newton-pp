@@ -24,6 +24,7 @@
 #define GRAVITATIONAL_CONSTANT 6.674e-11 // N*m^22/kg^2
 
 #include <vector>
+#include <math.h>
 #include "Particle.h"
 #include "Vec3D.h"
 
@@ -39,5 +40,6 @@ Vec3D gravitational_field(Particle &a, Particle &b, std::vector<void*> & params)
 Vec3D uniform_gravitational_field(Particle &a, Particle &b, std::vector<void*> & params);
 Vec3D uniform_magnetic_field(Particle &a, Particle &b, std::vector<void*> & params);
 Vec3D viscous_field(Particle &a, Particle &b, std::vector<void*> & params);
+Vec3D conswall(Particle &a, Particle &b, std::vector<void*> & params);
 
 #endif
