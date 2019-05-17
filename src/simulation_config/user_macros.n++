@@ -1,13 +1,15 @@
 #include <cstdlib>
 
-#define N_PARTICLES 5
+#define N_PARTICLES 31
 
-#define _r0_ 1
-#define _r1_ 1.6
+#define _r0_ .25
+#define _r1_ .5
 #define _El_ -10
-#define _Eh_ 20
+#define _Eh_ 50
 
-#define PARTICLES_MASS .01
+#define PARTICLES_MASS .05
 
 #define WALL_DEPTH .05
-#define BOX_DIAMETER 1.0
+#define BOX_DIAMETER 2.0
+
+#define DISIPATION_FACTOR .5

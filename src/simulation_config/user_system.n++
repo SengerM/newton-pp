@@ -12,4 +12,5 @@ for (j=0; j<N_PARTICLES; j++) {
 	}
 	for (unsigned int k=0; k<4; k++)
 		sys.AddInteraction(particles[j], walls[k]);
+	sys.AddInteraction(particles[j], disipation_force);
 }
