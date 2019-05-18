@@ -12,4 +12,4 @@ os.system('./newton++')
 
 sims = os.listdir('simulation_results')
 sims.sort()
-os.system('python3 tools/live_animation.py ' + 'simulation_results/' + sims[-1])
+os.system('python3 tools/generate_animation_file.py ' + 'simulation_results/' + sims[-1])
