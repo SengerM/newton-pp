@@ -16,10 +16,10 @@ vector<Force> walls {
 };
 double	x0 = WALL_DEPTH;
 vector<Vec3D> wall_positions(4);
-wall_positions[0] = Vec3D(BOX_DIAMETER/2, 0, 0),
-wall_positions[1] = Vec3D(-BOX_DIAMETER/2, 0, 0),
-wall_positions[2] = Vec3D(0, BOX_DIAMETER/2, 0),
-wall_positions[3] = Vec3D(0, -BOX_DIAMETER/2, 0);
+wall_positions[0] = Vec3D(sqrt(INITIAL_VOLUME)/2, 0, 0),
+wall_positions[1] = Vec3D(-sqrt(INITIAL_VOLUME)/2, 0, 0),
+wall_positions[2] = Vec3D(0, sqrt(INITIAL_VOLUME)/2, 0),
+wall_positions[3] = Vec3D(0, -sqrt(INITIAL_VOLUME)/2, 0);
 vector<Vec3D> wall_orientations(4);
 for (j=0; j<4; j++) {
 	wall_orientations[j] = wall_positions[j]/wall_positions[j].Abs();

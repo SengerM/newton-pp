@@ -3,6 +3,9 @@ vector<Particle> particles(N_PARTICLES);
 for (j=0; j<N_PARTICLES; j++) {
 	particles[j] = Particle();
 	particles[j].Mass() = PARTICLES_MASS;
-	particles[j].Position() = Vec3D(random_double(-BOX_DIAMETER/2,BOX_DIAMETER/2),random_double(-BOX_DIAMETER/2,BOX_DIAMETER/2),0);
+	particles[j].Position() = Vec3D(
+		random_double(-sqrt(INITIAL_VOLUME)/2,sqrt(INITIAL_VOLUME)/2),
+		random_double(-sqrt(INITIAL_VOLUME)/2,sqrt(INITIAL_VOLUME)/2),
+		0);
 }
 
