@@ -15,12 +15,13 @@ Vec3D bonding0(Particle &a, Particle &b, std::vector<void*> & params) {
 	Vec3D vec;
 	vec = (b.Position() - a.Position());
 	double distance = vec.Abs();
+	// FIX THIS!!!!!!!!!!!!!!!!!
 	if (distance > r1)
 		return Vec3D(0,0,0);
 	if (distance > r0)
-		return vec*(El/(r1-r0)/vec.Abs());
+		return vec*0;//(El/(r1-r0)/vec.Abs());
 	if (distance > 0)
-		return vec*(-(Eh-El)/r0/vec.Abs());
+		return vec*0;//(-(Eh-El)/r0/vec.Abs());
 	return Vec3D(0,0,0);
 }
 
