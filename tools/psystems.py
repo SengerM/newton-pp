@@ -124,15 +124,15 @@ def animate_system(psystem):
 	ax.axis('equal')
 	ax.axis('off')
 	fig.patch.set_facecolor('black')
-	ax.set_xlim(-2, 2)
-	ax.set_ylim(-2, 2)
+	ax.set_xlim(-.5, .5)
+	ax.set_ylim(-.5, .5)
 	
 	def update(frame_number):
 		scat.set_offsets([[psystem.get_scatter_x(frame_number)[i], psystem.get_scatter_y(frame_number)[i]] for i in range(len(psystem.get_scatter_x(frame_number)))])
 		scat.set_color(psystem.get_scatter_color(frame_number))
 	
 	animation = FuncAnimation(fig, update, interval=1, save_count=psystem.nframes())
-	return animation
+	return animation, ax
 
 def plot_snapshot(psystem, frame):
 	fig, ax = plt.subplots()
