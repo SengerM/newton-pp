@@ -1,5 +1,4 @@
 import os
-import tools.psystems as psys
 import matplotlib.pyplot as plt
 
 if 'build' not in os.listdir():
