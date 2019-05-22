@@ -2,7 +2,7 @@
 
 #include "simulation_config/user_functions.n++"
 
-int main() {
+int main(int argc, char** argv) {
 	size_t i, j, I; // General purpose counters.
 	ofstream ofile; // Output file stream.
 	string gpstr; // General purpose string.
@@ -13,7 +13,13 @@ int main() {
 	// Begin --------------------------------------------------------
 	system("clear");
 	cerr << INIT_MSG << endl;
-	timeString = now(); // Function that returns a C++ string object containing the date and time in the format "%Y_%m_%d_%H_%M_%S".
+	if (argc > 2) {
+		cerr << "wrong arguments" << endl;
+		return 1;
+	} else if (argc == 2)
+		timeString = argv[1];
+	else
+		timeString = now();
 	// --------------------------------------------------------------
 	cerr << BOLD << "Simulation number: " << RST << timeString << endl;
 	cerr << BOLD << '\t' << "Simulation time: " << RST << SIMULATION_TIME << endl;
