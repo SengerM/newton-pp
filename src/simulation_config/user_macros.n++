@@ -1,5 +1,18 @@
-#define N_PARTICLES_PER_LAYER 10
-#define N_LAYERS 3
-#define OBJECTIVE_PARTICLES_RADIUS 1
-#define INCIDENCE_ANGLE (10.0*3.14/180.0)
-#define PROJECTILE_INITIAL_SPEED 300.0
+#include <cstdlib>
+
+#define N_PARTICLES 40
+
+#define _r0_ .25
+#define _r1_ .5
+#define _El_ -3
+#define _Eh_ 10
+
+#define PARTICLES_MASS .05
+
+#define WALL_DEPTH .001
+#define INITIAL_VOLUME (_r1_*N_PARTICLES)
+#define FINAL_VOLUME (INITIAL_VOLUME*.1)
+
+#define INITIAL_SPEED 1
+
+#define DISIPATION_FACTOR 0.5

@@ -1,5 +1,3 @@
-int random_uniform(int low, int high) {
-    if (low > high) 
-		return low + (std::rand() % (low - high + 1));
-    return low + (std::rand() % (high - low + 1));
+double random_double(double a, double b) {
+	return ((double)rand() / RAND_MAX) * (b - a) + a;
 }

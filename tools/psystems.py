@@ -2,6 +2,7 @@ import csv
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import numpy as np
+import zoomtools
 
 def boundrange(number, min=0, max=1):
 	if number < min:
@@ -72,6 +73,43 @@ class crystal_and_particle:
 	
 	def nframes(self):
 		return len(self.time)
+		
+class gas:
+	"""
+	This class is intended to store data of a gas composed by N particles.
+	This is a "psystem" type class.
+	"""
+	def __init__(self, filename):
+		self.time = []
+		self.gas = []
+		with open(filename) as csvfile:
+			readCSV = csv.reader(csvfile, delimiter='\t')
+			for row in readCSV:
+				self.time.append(row[0])
+				gas_now = []
+				for k in range(int((len(row)-1)/3)):
+					gas_now.append([float(i) for i in row[1+3*k:1+3*k+3]])
+				self.gas.append(gas_now)
+		
+	def get_gas_x(self, frame):
+		return [p[0] for p in self.gas[frame]]
+	def get_gas_y(self, frame):
+		return [p[1] for p in self.gas[frame]]
+	def get_gas_z(frame):
+		return [p[2] for p in self.gas[frame]]
+	
+	def get_gas_color(self, frame):
+		return (1,1,1)
+	
+	def get_scatter_x(self, frame):
+		return self.get_gas_x(frame)
+	def get_scatter_y(self, frame):
+		return self.get_gas_y(frame)
+	def get_scatter_color(self, frame):
+		return self.get_gas_color(frame)
+	
+	def nframes(self):
+		return len(self.time)
 
 def animate_system(psystem):
 	"""
@@ -87,6 +125,12 @@ def animate_system(psystem):
 	ax.axis('equal')
 	ax.axis('off')
 	fig.patch.set_facecolor('black')
+	# ~ ax.set_xlim(-.5, .5)
+	# ~ ax.set_ylim(-.5, .5)
+	
+	zp = zoomtools.ZoomPan()
+	figZoom = zp.zoom_factory(ax, base_scale = 1.5)
+	figPan = zp.pan_factory(ax)
 	
 	def update(frame_number):
 		scat.set_offsets([[psystem.get_scatter_x(frame_number)[i], psystem.get_scatter_y(frame_number)[i]] for i in range(len(psystem.get_scatter_x(frame_number)))])

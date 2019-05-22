@@ -1,36 +1,33 @@
-Force	colission("colission force between projectile and objective", colission_force, 3, false);
-double	repulsion_coef = 2700, // Projectile
-		dissipation_coef = 0, // Projectile
-		colission_radius = 0.8*double(OBJECTIVE_PARTICLES_RADIUS); // Projectile
-colission.AddParameter(&colission_radius);
-colission.AddParameter(&dissipation_coef);
-colission.AddParameter(&repulsion_coef);
+Force	interaction("interaction between particles", bonding0, 4, false);
+double	r0 = _r0_,
+		r1 = _r1_,
+		El = _El_,
+		Eh = _Eh_;
+interaction.AddParameter(&r0);
+interaction.AddParameter(&r1);
+interaction.AddParameter(&El);
+interaction.AddParameter(&Eh);
 
-Force	damping("damping force of objective particles", damping_force, 1, false);
-double 	damping_coef = 0; // Objective
-damping.AddParameter(&damping_coef);
+vector<Force> walls {
+	Force("wall in positive x", conswall, 3, true),
+	Force("wall in negative x", conswall, 3, true),
+	Force("wall in positive y", conswall, 3, true),
+	Force("wall in negative y", conswall, 3, true)
+};
+double	x0 = WALL_DEPTH;
+vector<Vec3D> wall_positions(4);
+wall_positions[0] = Vec3D(sqrt(INITIAL_VOLUME)/2, 0, 0),
+wall_positions[1] = Vec3D(-sqrt(INITIAL_VOLUME)/2, 0, 0),
+wall_positions[2] = Vec3D(0, sqrt(INITIAL_VOLUME)/2, 0),
+wall_positions[3] = Vec3D(0, -sqrt(INITIAL_VOLUME)/2, 0);
+vector<Vec3D> wall_orientations(4);
+for (j=0; j<4; j++) {
+	wall_orientations[j] = wall_positions[j]/wall_positions[j].Abs();
+	walls[j].AddParameter(&x0);
+	walls[j].AddParameter(&wall_positions[j]);
+	walls[j].AddParameter(&wall_orientations[j]);
+}
 
-Force	bonding("bonding force of objective particles", elastic_force, 2, false);
-double 	k = 3000, // Objective
-		l = OBJECTIVE_PARTICLES_RADIUS; // Objective
-bonding.AddParameter(&k);
-bonding.AddParameter(&l);
-
-Force	fixing1("objective fixing force at y = 0", armonic_3D_field, 3, true);
-double	k_fixing = 1e5,
-		l_fixing = 0;
-Vec3D	fixing_point_1(layers[0][0].Position());
-fixing1.AddParameter(&k_fixing);
-fixing1.AddParameter(&l_fixing);
-fixing1.AddParameter(&fixing_point_1);
-
-Force	fixing2("objective fixing force at y = N_PARTICLES", armonic_3D_field, 3, true);
-Vec3D	fixing_point_2(layers[0][N_PARTICLES_PER_LAYER-1].Position());
-fixing2.AddParameter(&k_fixing);
-fixing2.AddParameter(&l_fixing);
-fixing2.AddParameter(&fixing_point_2);
-
-Force	viscous("dissipating force in the fixings of the objective", viscous_field, 1, true);
-double	viscous_fixing_constant = 0;
-viscous.AddParameter(&viscous_fixing_constant);
-
+Force disipation_force("viscous force", viscous_field, 1, true);
+double disipation_factor = DISIPATION_FACTOR;
+disipation_force.AddParameter(&disipation_factor);

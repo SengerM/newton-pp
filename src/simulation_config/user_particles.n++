@@ -1,18 +1,13 @@
-vector<vector<Particle>> layers(N_LAYERS);
-for (j=0; j<N_LAYERS; j++) {
-	for (i=0; i<N_PARTICLES_PER_LAYER; i++) {
-		if (j%2 && i == N_PARTICLES_PER_LAYER-1) // if (j is odd and ...)
-			continue; // Do not draw an extra particle at the end of an odd layer
-		(layers[j]).push_back(Particle()); // Creates the particles, the method «push_back» creates copies inside the vector.
-		(layers[j][i]).Mass() = 1;
-		(layers[j][i]).Position() = Vec3D(j*double(OBJECTIVE_PARTICLES_RADIUS)*sqrt(3)/2, double(i)*double(OBJECTIVE_PARTICLES_RADIUS)-double(N_PARTICLES_PER_LAYER-1)/2.0, 0);
-		if (j%2) // if (j is odd)
-			(layers[j][i]).Position() = (layers[j][i]).Position() + Vec3D(0, double(OBJECTIVE_PARTICLES_RADIUS)/2.0, 0);
-	}
+vector<Particle> particles(N_PARTICLES);
+
+for (j=0; j<N_PARTICLES; j++) {
+	particles[j] = Particle();
+	particles[j].Mass() = PARTICLES_MASS;
+	particles[j].Position() = Vec3D(
+		random_double(-sqrt(INITIAL_VOLUME)/2,sqrt(INITIAL_VOLUME)/2),
+		random_double(-sqrt(INITIAL_VOLUME)/2,sqrt(INITIAL_VOLUME)/2),
+		0);
+	Vec3D vel(random_double(-1,1), random_double(-1,1), 0);
+	particles[j].Velocity() = vel/vel.Abs()*INITIAL_SPEED;
 }
-Particle projectile("projectile"); // This is the particle that is going to be shooted.
-projectile.Mass() = 1;
-srand(time(NULL)); // This is to initialize the random seed.
-double velocity_angle = INCIDENCE_ANGLE;
-projectile.Velocity() = (Vec3D(1,0,0)*cos(velocity_angle) + Vec3D(0,1,0)*sin(velocity_angle))*PROJECTILE_INITIAL_SPEED;
-projectile.Position() = (Vec3D(-1,0,0)*cos(velocity_angle)+Vec3D(0,-1,0)*sin(velocity_angle))*2*OBJECTIVE_PARTICLES_RADIUS/cos(velocity_angle) + (Vec3D(-1,0,0)*sin(velocity_angle)+Vec3D(0,1,0)*cos(velocity_angle))*random_uniform(-50,50)/100.0*2*OBJECTIVE_PARTICLES_RADIUS; //Vec3D(-OBJECTIVE_PARTICLES_RADIUS*2, random_uniform(-50,50)/100*OBJECTIVE_PARTICLES_RADIUS, 0)*cos(velocity_angle) - Vec3D(random_uniform(-OBJECTIVE_PARTICLES_RADIUS*100,OBJECTIVE_PARTICLES_RADIUS*100)*2.0/100.0, -OBJECTIVE_PARTICLES_RADIUS*2, 0)*sin(velocity_angle);
+

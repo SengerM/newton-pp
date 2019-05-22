@@ -8,11 +8,11 @@ parser.add_argument('isimpath', help='directory containing the output data of ne
 
 args = parser.parse_args()
 
-system = psys.crystal_and_particle(args.isimpath + '/simulation_output.txt')
+system = psys.gas(args.isimpath + '/simulation_output.txt')
 animation = psys.animate_system(system)
 
 animation.save(
 	args.isimpath + '/animation.mp4', 
-	fps = 30,
+	fps = 100,
 	savefig_kwargs = {'facecolor':'black'},
 )

@@ -2,7 +2,7 @@
 
 #include "simulation_config/user_functions.n++"
 
-int main() {
+int main(int argc, char** argv) {
 	size_t i, j, I; // General purpose counters.
 	ofstream ofile; // Output file stream.
 	string gpstr; // General purpose string.
@@ -13,7 +13,13 @@ int main() {
 	// Begin --------------------------------------------------------
 	system("clear");
 	cerr << INIT_MSG << endl;
-	timeString = now(); // Function that returns a C++ string object containing the date and time in the format "%Y_%m_%d_%H_%M_%S".
+	if (argc > 2) {
+		cerr << "wrong arguments" << endl;
+		return 1;
+	} else if (argc == 2)
+		timeString = argv[1];
+	else
+		timeString = now();
 	// --------------------------------------------------------------
 	cerr << BOLD << "Simulation number: " << RST << timeString << endl;
 	cerr << BOLD << '\t' << "Simulation time: " << RST << SIMULATION_TIME << endl;
@@ -86,6 +92,13 @@ int main() {
 		}
 		if (((i*100)/I)%PERCENTAGE_PRINT_STEP == 0)
 			print_percentage(i,I);
+		if (i < I*.8) {
+			double current_volume = INITIAL_VOLUME + (FINAL_VOLUME-INITIAL_VOLUME)*i/(I*.8);
+			wall_positions[0] = Vec3D(sqrt(current_volume)/2, 0, 0),
+			wall_positions[1] = Vec3D(-sqrt(current_volume)/2, 0, 0),
+			wall_positions[2] = Vec3D(0, sqrt(current_volume)/2, 0),
+			wall_positions[3] = Vec3D(0, -sqrt(current_volume)/2, 0);
+		}
 	}
 	print_percentage(i,I);
 	cerr << endl;
