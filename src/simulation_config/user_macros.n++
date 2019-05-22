@@ -1,18 +1,20 @@
 #include <cstdlib>
 
-#define N_PARTICLES 40
+#define N_PARTICLES 100
 
 #define _r0_ .25
-#define _r1_ .5
-#define _El_ -3
+#define _r1_ 1
+#define _El_ -.5
 #define _Eh_ 10
 
 #define PARTICLES_MASS .05
 
-#define WALL_DEPTH .001
-#define INITIAL_VOLUME (_r1_*N_PARTICLES)
-#define FINAL_VOLUME (INITIAL_VOLUME*.1)
+#define WALL_DEPTH .01
+#define INITIAL_VOLUME (_r1_*N_PARTICLES*0.5)
+#define FINAL_VOLUME (INITIAL_VOLUME)
 
-#define INITIAL_SPEED 1
+#define INITIAL_SPEED 10
 
-#define DISIPATION_FACTOR 0.5
+#define DISSIPATION_FACTOR 10
+
+#define GRAVITATIONAL_ACCELERATION 9.8

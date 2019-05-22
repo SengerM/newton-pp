@@ -8,13 +8,20 @@ interaction.AddParameter(&r1);
 interaction.AddParameter(&El);
 interaction.AddParameter(&Eh);
 
-vector<Force> walls {
-	Force("wall in positive x", conswall, 3, true),
-	Force("wall in negative x", conswall, 3, true),
-	Force("wall in positive y", conswall, 3, true),
-	Force("wall in negative y", conswall, 3, true)
+vector<Force> walls_conservative {
+	Force("conservative wall in positive x", conswall, 3, true),
+	Force("conservative wall in negative x", conswall, 3, true),
+	Force("conservative wall in positive y", conswall, 3, true),
+	Force("conservative wall in negative y", conswall, 3, true)
+};
+vector<Force> walls_dissipative {
+	Force("dissipative wall in positive x", exchangewall, 3, true),
+	Force("dissipative wall in negative x", exchangewall, 3, true),
+	Force("dissipative wall in positive y", exchangewall, 3, true),
+	Force("dissipative wall in nevative y", exchangewall, 3, true)
 };
 double	x0 = WALL_DEPTH;
+double dissipation_factor = DISSIPATION_FACTOR;
 vector<Vec3D> wall_positions(4);
 wall_positions[0] = Vec3D(sqrt(INITIAL_VOLUME)/2, 0, 0),
 wall_positions[1] = Vec3D(-sqrt(INITIAL_VOLUME)/2, 0, 0),
@@ -23,11 +30,14 @@ wall_positions[3] = Vec3D(0, -sqrt(INITIAL_VOLUME)/2, 0);
 vector<Vec3D> wall_orientations(4);
 for (j=0; j<4; j++) {
 	wall_orientations[j] = wall_positions[j]/wall_positions[j].Abs();
-	walls[j].AddParameter(&x0);
-	walls[j].AddParameter(&wall_positions[j]);
-	walls[j].AddParameter(&wall_orientations[j]);
+	walls_conservative[j].AddParameter(&x0);
+	walls_conservative[j].AddParameter(&wall_positions[j]);
+	walls_conservative[j].AddParameter(&wall_orientations[j]);
+	walls_dissipative[j].AddParameter(&dissipation_factor);
+	walls_dissipative[j].AddParameter(&wall_positions[j]);
+	walls_dissipative[j].AddParameter(&wall_orientations[j]);
 }
 
-Force disipation_force("viscous force", viscous_field, 1, true);
-double disipation_factor = DISIPATION_FACTOR;
-disipation_force.AddParameter(&disipation_factor);
+Force	gravity("gravity", uniform_gravitational_field, 1, true);
+Vec3D	gravitational_acceleration(0,-GRAVITATIONAL_ACCELERATION,0);
+gravity.AddParameter(&gravitational_acceleration);
