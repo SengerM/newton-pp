@@ -11,17 +11,16 @@ Vec3D bonding0(Particle &a, Particle &b, std::vector<void*> & params) {
 	double 	r0 = *((double*)params[0]), // Position of the minimum of potential.
 			r1 = *((double*)params[1]), // Position beyond no force acts.
 			El = *((double*)params[2]), // Minimum of energy.
-			Eh = *((double*)params[1]); // Maximum of energy.
+			Eh = *((double*)params[3]); // Maximum of energy.
 	Vec3D vec;
 	vec = (b.Position() - a.Position());
 	double distance = vec.Abs();
-	// FIX THIS!!!!!!!!!!!!!!!!!
 	if (distance > r1)
 		return Vec3D(0,0,0);
 	if (distance > r0)
-		return vec*0;//(El/(r1-r0)/vec.Abs());
+		return vec*(El/(r1-r0)/vec.Abs());
 	if (distance > 0)
-		return vec*0;//(-(Eh-El)/r0/vec.Abs());
+		return vec*(-(Eh-El)/r0/vec.Abs());
 	return Vec3D(0,0,0);
 }
 
