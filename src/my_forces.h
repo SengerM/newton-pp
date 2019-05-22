@@ -41,5 +41,6 @@ Vec3D uniform_gravitational_field(Particle &a, Particle &b, std::vector<void*> &
 Vec3D uniform_magnetic_field(Particle &a, Particle &b, std::vector<void*> & params);
 Vec3D viscous_field(Particle &a, Particle &b, std::vector<void*> & params);
 Vec3D conswall(Particle &a, Particle &b, std::vector<void*> & params);
+Vec3D exchangewall(Particle &a, Particle &b, std::vector<void*> & params);
 
 #endif
