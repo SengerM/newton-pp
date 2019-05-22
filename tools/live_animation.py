@@ -10,10 +10,6 @@ parser.add_argument('isimpath', help='directory containing the output data of ne
 args = parser.parse_args()
 
 system = psys.gas(args.isimpath + '/simulation_output.txt')
-animation, ax = psys.animate_system(system)
-
-zp = ZoomPan()
-figZoom = zp.zoom_factory(ax, base_scale = 1.5)
-figPan = zp.pan_factory(ax)
+animation = psys.animate_system(system)
 
 plt.show()

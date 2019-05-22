@@ -2,6 +2,7 @@ import csv
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import numpy as np
+import zoomtools
 
 def boundrange(number, min=0, max=1):
 	if number < min:
@@ -124,15 +125,19 @@ def animate_system(psystem):
 	ax.axis('equal')
 	ax.axis('off')
 	fig.patch.set_facecolor('black')
-	ax.set_xlim(-.5, .5)
-	ax.set_ylim(-.5, .5)
+	# ~ ax.set_xlim(-.5, .5)
+	# ~ ax.set_ylim(-.5, .5)
+	
+	zp = zoomtools.ZoomPan()
+	figZoom = zp.zoom_factory(ax, base_scale = 1.5)
+	figPan = zp.pan_factory(ax)
 	
 	def update(frame_number):
 		scat.set_offsets([[psystem.get_scatter_x(frame_number)[i], psystem.get_scatter_y(frame_number)[i]] for i in range(len(psystem.get_scatter_x(frame_number)))])
 		scat.set_color(psystem.get_scatter_color(frame_number))
 	
 	animation = FuncAnimation(fig, update, interval=1, save_count=psystem.nframes())
-	return animation, ax
+	return animation
 
 def plot_snapshot(psystem, frame):
 	fig, ax = plt.subplots()
