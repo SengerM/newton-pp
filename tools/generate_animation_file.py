@@ -13,6 +13,6 @@ animation = psys.animate_system(system)
 
 animation.save(
 	args.isimpath + '/animation.mp4', 
-	fps = 30,
+	fps = 100,
 	savefig_kwargs = {'facecolor':'black'},
 )
