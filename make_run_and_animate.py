@@ -1,10 +1,7 @@
-import threading
 import os
 import matplotlib.pyplot as plt
 import datetime
 from time import sleep
-from tools.psystems import gas
-from tools.psystems import plot_snapshot
 
 def get_timestamp():
 	"""
@@ -28,39 +25,15 @@ def get_timestamp():
 	sleep(10e-6) # This ensures that there will not exist two equal timestamps.
 	return timestamp
 
-simulation_timestamp = get_timestamp()
-
-def plot_preview(newton_thread, sim_number):
-	while newton_thread.isAlive():
-		while sim_number not in os.listdir('simulation_results'):
-			sleep(1)
-		system = gas('simulation_results/' + simulation_timestamp + '/simulation_output.txt')
-		fig, ax = plot_snapshot(system, len(system.time)-1)
-		fig.savefig(
-			'simulation_results/' + simulation_timestamp + '/preview.png', 
-			facecolor = 'black',
-		)
-		sleep(3)
-
-newton_thread = threading.Thread(
-	target = lambda: os.system('./newton++ ' + simulation_timestamp), 
-	name = 'newton++'
-)
-plotting_thread = threading.Thread(
-	target = plot_preview,
-	name = 'preview thread',
-	args = (newton_thread, simulation_timestamp,)
-)
-
 if 'build' not in os.listdir():
 	os.mkdir('build')
 if 'simulation_results' not in os.listdir():
 	os.mkdir('simulation_results')
 
+simulation_timestamp = get_timestamp()
+
 os.system('make clean')
 os.system('make compile')
-newton_thread.start()
-plotting_thread.start()
+os.system('./newton++ ' + simulation_timestamp)
 
-
-# ~ os.system('python3 tools/generate_animation_file.py ' + 'simulation_results/' + simulation_timestamp)
+os.system('python3 tools/generate_animation_file.py ' + 'simulation_results/' + simulation_timestamp)
