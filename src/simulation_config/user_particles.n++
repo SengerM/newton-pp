@@ -7,5 +7,7 @@ for (j=0; j<N_PARTICLES; j++) {
 		random_double(-sqrt(INITIAL_VOLUME)/2,sqrt(INITIAL_VOLUME)/2),
 		random_double(-sqrt(INITIAL_VOLUME)/2,sqrt(INITIAL_VOLUME)/2),
 		0);
+	Vec3D vel(random_double(-1,1), random_double(-1,1), 0);
+	particles[j].Velocity() = vel/vel.Abs()*INITIAL_SPEED;
 }
 
