@@ -98,10 +98,7 @@ int main(int argc, char** argv) {
 	for (i=0; i<I; i++) {
 		sys.StepEuler(TIME_STEP);
 		if (i > TIME_TO_START_SAVING_DATA/TIME_STEP && (i%size_t((I-TIME_TO_START_SAVING_DATA/TIME_STEP)/N_EXPORT_POINTS) == 0) ) {
-			ofile.open(gpstr.c_str(), std::fstream::app); // Opens the file for saving the simulation data, in append mode.
-			ofile << std::scientific << std::setprecision(RESULTS_DIGITS); //std::setprecision(std::numeric_limits<double>::digits10); // Sets the precision for printing the doubles.
-			sys.PrintTXT(ofile);
-			ofile.close();
+			sys.WriteToTXT(path_str + "/simulation_output.txt");
 			sys.WriteToBinary(path_str + "/data.bin");
 		}
 		if (((i*100)/I)%PERCENTAGE_PRINT_STEP == 0)

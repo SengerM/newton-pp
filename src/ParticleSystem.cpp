@@ -60,44 +60,41 @@ void ParticleSystem::Print(std::ostream & stream) {
 	}
 }
 
-void ParticleSystem::PrintTXT(std::ofstream & ostr) { // Prints the time and position of each particle in a text file.
-	if (!ostr.is_open()) {
-		cerr << ERROR_MSG << "«void ParticleSystem::PrintTXT(std::ofstream ostr)» the stream «ostr» is not open." << endl;
-		return;
-	}
+void ParticleSystem::WriteToTXT(std::string filepath) {
+	// Writes the time and position of each particle in a TXT file.
+	std::ofstream ofile;
+	ofile.open(filepath.c_str(), std::fstream::app);
+	ofile << std::scientific; // Sets scientific notation.
 	
-	size_t k;
 	Vec3D aux_vec;
-	
-	ostr << time << PRINTTXT_SEP_CHAR;
+	size_t k;
+	ofile << time << PRINTTXT_SEP_CHAR;
 	for (k=0; k<nodes_vec.size()-1; k++) {
 		aux_vec = (*((nodes_vec[k]).particle)).Position();
-		ostr << aux_vec.GetX() << PRINTTXT_SEP_CHAR;
-		ostr << aux_vec.GetY() << PRINTTXT_SEP_CHAR;
-		ostr << aux_vec.GetZ() << PRINTTXT_SEP_CHAR;
+		ofile << aux_vec.GetX() << PRINTTXT_SEP_CHAR;
+		ofile << aux_vec.GetY() << PRINTTXT_SEP_CHAR;
+		ofile << aux_vec.GetZ() << PRINTTXT_SEP_CHAR;
 	}
 	aux_vec = (*((nodes_vec[k]).particle)).Position();
-	ostr << aux_vec.GetX() << PRINTTXT_SEP_CHAR;
-	ostr << aux_vec.GetY() << PRINTTXT_SEP_CHAR;
-	ostr << aux_vec.GetZ();
-	ostr << endl;
-	
+	ofile << aux_vec.GetX() << PRINTTXT_SEP_CHAR;
+	ofile << aux_vec.GetY() << PRINTTXT_SEP_CHAR;
+	ofile << aux_vec.GetZ();
+	ofile << endl;
+	ofile.close();
 }
 
 void ParticleSystem::WriteToBinary(std::string filepath) {
 	// Writes the time and position of each particle in a binary file with double numbers.
 	std::ofstream ofile;
 	ofile.open(filepath.c_str(), std::ios::out | std::ios::app | std::ios::binary);
-	double i = 5.4;
-	ofile.write(reinterpret_cast<const char*>(&i), sizeof(double));
-	//~ ofile.write(reinterpret_cast<const char*>(&time), sizeof(double));
-	//~ for (size_t k = 0; k < nodes_vec.size(); k++) {
-		//~ Vec3D aux = (*((nodes_vec[k]).particle)).Position();
-		//~ double x = aux.GetX(), y = aux.GetY(), z = aux.GetZ();
-		//~ ofile.write(reinterpret_cast<const char*>(&x), sizeof(double));
-		//~ ofile.write(reinterpret_cast<const char*>(&y), sizeof(double));
-		//~ ofile.write(reinterpret_cast<const char*>(&z), sizeof(double));
-	//~ }
+	ofile.write(reinterpret_cast<const char*>(&time), sizeof(double));
+	for (size_t k = 0; k < nodes_vec.size(); k++) {
+		Vec3D aux = (*((nodes_vec[k]).particle)).Position();
+		double x = aux.GetX(), y = aux.GetY(), z = aux.GetZ();
+		ofile.write(reinterpret_cast<const char*>(&x), sizeof(double));
+		ofile.write(reinterpret_cast<const char*>(&y), sizeof(double));
+		ofile.write(reinterpret_cast<const char*>(&z), sizeof(double));
+	}
 	ofile.close();
 }
 
