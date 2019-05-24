@@ -102,6 +102,7 @@ int main(int argc, char** argv) {
 			ofile << std::scientific << std::setprecision(RESULTS_DIGITS); //std::setprecision(std::numeric_limits<double>::digits10); // Sets the precision for printing the doubles.
 			sys.PrintTXT(ofile);
 			ofile.close();
+			sys.WriteToBinary(path_str + "/data.bin");
 		}
 		if (((i*100)/I)%PERCENTAGE_PRINT_STEP == 0)
 			print_percentage(i,I);

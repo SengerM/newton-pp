@@ -84,6 +84,23 @@ void ParticleSystem::PrintTXT(std::ofstream & ostr) { // Prints the time and pos
 	
 }
 
+void ParticleSystem::WriteToBinary(std::string filepath) {
+	// Writes the time and position of each particle in a binary file with double numbers.
+	std::ofstream ofile;
+	ofile.open(filepath.c_str(), std::ios::out | std::ios::app | std::ios::binary);
+	double i = 5.4;
+	ofile.write(reinterpret_cast<const char*>(&i), sizeof(double));
+	//~ ofile.write(reinterpret_cast<const char*>(&time), sizeof(double));
+	//~ for (size_t k = 0; k < nodes_vec.size(); k++) {
+		//~ Vec3D aux = (*((nodes_vec[k]).particle)).Position();
+		//~ double x = aux.GetX(), y = aux.GetY(), z = aux.GetZ();
+		//~ ofile.write(reinterpret_cast<const char*>(&x), sizeof(double));
+		//~ ofile.write(reinterpret_cast<const char*>(&y), sizeof(double));
+		//~ ofile.write(reinterpret_cast<const char*>(&z), sizeof(double));
+	//~ }
+	ofile.close();
+}
+
 void ParticleSystem::AddInteraction(Particle & a, Particle & b, Force & force) { // Adds to particle «a» an interaction with particle «b» defined by «force».
 	if (force.IsField()) {
 		cerr << WARNING_MSG << "Trying to add interaction «" << force.GetName() << "» wich is of type «field» to two particles. It must be added to only one particle. Nothing is done." << endl;

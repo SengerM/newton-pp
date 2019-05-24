@@ -38,6 +38,7 @@ public:
 	size_t Size(void); // Returns number of particles.
 	void Print(std::ostream &);
 	void PrintTXT(std::ofstream &); // Prints the time and position of each particle in a text file.
+	void WriteToBinary(std::string filepath); // Writes the time and position of each particle in a binary file with double numbers.
 	void CalcForces(void); // Calculates all the forces of the system with the current state of the particles and parameters (and time).
 	void StepRK4(double h); // Evolves the system one step of time «h» using the method Runge-Kutta 4.
 	void StepEuler(double h); // Evolves the system one step of time «h» using the Euler's method.
