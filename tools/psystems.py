@@ -89,14 +89,19 @@ class gas:
 	def __init__(self, filename):
 		self.time = []
 		self.gas = []
-		with open(filename) as csvfile:
-			readCSV = csv.reader(csvfile, delimiter='\t')
-			for row in readCSV:
-				self.time.append(row[0])
-				gas_now = []
-				for k in range(int((len(row)-1)/3)):
-					gas_now.append([float(i) for i in row[1+3*k:1+3*k+3]])
-				self.gas.append(gas_now)
+		if filename[-3:] == 'csv':
+			with open(filename) as csvfile:
+				readCSV = csv.reader(csvfile, delimiter='\t')
+				for row in readCSV:
+					self.time.append(row[0])
+					gas_now = []
+					for k in range(int((len(row)-1)/3)):
+						gas_now.append([float(i) for i in row[1+3*k:1+3*k+3]])
+					self.gas.append(gas_now)
+		elif filename[-3:] == 'bin':
+			raise NotImplementedError('Binary reading not yet implemented')
+		else:
+			raise ValueError('Dont know how to read a file of type "' + filename[-4:] + '"')
 		
 	def get_gas_x(self, frame):
 		return [p[0] for p in self.gas[frame]]

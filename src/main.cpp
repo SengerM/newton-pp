@@ -98,7 +98,7 @@ int main(int argc, char** argv) {
 	for (i=0; i<I; i++) {
 		sys.StepEuler(TIME_STEP);
 		if (i > TIME_TO_START_SAVING_DATA/TIME_STEP && (i%size_t((I-TIME_TO_START_SAVING_DATA/TIME_STEP)/N_EXPORT_POINTS) == 0) ) {
-			sys.WriteToTXT(path_str + "/simulation_output.txt");
+			sys.WriteToTXT(path_str + "/data.csv");
 			sys.WriteToBinary(path_str + "/data.bin");
 		}
 		if (((i*100)/I)%PERCENTAGE_PRINT_STEP == 0)
