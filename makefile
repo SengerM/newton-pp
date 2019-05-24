@@ -2,26 +2,26 @@ CC = g++
 CFLAGS = -ansi -pedantic -Wall -std=c++11
 LFLAGS = -lm
 
-SOURCE_DIR = src
 BUILD_DIR = build
+SRC_DIR = src
 
-compile: main ParticleSystem Particle Vec3D Force Interaction my_forces
+newton++: $(BUILD_DIR)/main.o $(BUILD_DIR)/ParticleSystem.o $(BUILD_DIR)/Particle.o $(BUILD_DIR)/Vec3D.o $(BUILD_DIR)/Force.o $(BUILD_DIR)/Interaction.o $(BUILD_DIR)/my_forces.o
 	$(CC) $(CFLAGS) -o newton++ $(BUILD_DIR)/*.o $(LFLAGS)
 
-main: $(SOURCE_DIR)/main.cpp $(SOURCE_DIR)/main.h $(SOURCE_DIR)/simulation_config/simulation_macros.n++ $(SOURCE_DIR)/simulation_config/user_forces.n++ $(SOURCE_DIR)/simulation_config/user_macros.n++ $(SOURCE_DIR)/simulation_config/user_particles.n++ $(SOURCE_DIR)/simulation_config/user_system.n++ $(SOURCE_DIR)/simulation_config/user_functions.n++
-	$(CC) $(CFLAGS) -c -o $(BUILD_DIR)/main.o $(SOURCE_DIR)/main.cpp $(LFLAGS)
-ParticleSystem: $(SOURCE_DIR)/ParticleSystem.cpp $(SOURCE_DIR)/ParticleSystem.h $(SOURCE_DIR)/Particle.h $(SOURCE_DIR)/Interaction.h
-	$(CC) $(CFLAGS) -c -o $(BUILD_DIR)/ParticleSystem.o $(SOURCE_DIR)/ParticleSystem.cpp $(LFLAGS)
-Particle: $(SOURCE_DIR)/Particle.cpp $(SOURCE_DIR)/Particle.h $(SOURCE_DIR)/Vec3D.h $(SOURCE_DIR)/color.h
-	$(CC) $(CFLAGS) -c -o $(BUILD_DIR)/Particle.o $(SOURCE_DIR)/Particle.cpp $(LFLAGS)
-Vec3D: $(SOURCE_DIR)/Vec3D.cpp $(SOURCE_DIR)/Vec3D.h
-	$(CC) $(CFLAGS) -c -o $(BUILD_DIR)/Vec3D.o $(SOURCE_DIR)/Vec3D.cpp $(LFLAGS)
-Force: $(SOURCE_DIR)/Force.cpp $(SOURCE_DIR)/Force.h $(SOURCE_DIR)/Vec3D.h $(SOURCE_DIR)/Particle.h $(SOURCE_DIR)/color.h
-	$(CC) $(CFLAGS) -c -o $(BUILD_DIR)/Force.o $(SOURCE_DIR)/Force.cpp $(LFLAGS)
-Interaction: $(SOURCE_DIR)/Interaction.cpp $(SOURCE_DIR)/Interaction.h $(SOURCE_DIR)/Force.h
-	$(CC) $(CFLAGS) -c -o $(BUILD_DIR)/Interaction.o $(SOURCE_DIR)/Interaction.cpp $(LFLAGS)
-my_forces: $(SOURCE_DIR)/my_forces.cpp $(SOURCE_DIR)/my_forces.h
-	$(CC) $(CFLAGS) -c -o $(BUILD_DIR)/my_forces.o $(SOURCE_DIR)/my_forces.cpp $(LFLAGS)
+$(BUILD_DIR)/main.o: $(SRC_DIR)/main.cpp $(SRC_DIR)/main.h $(SRC_DIR)/simulation_config/simulation_macros.n++ $(SRC_DIR)/simulation_config/user_forces.n++ $(SRC_DIR)/simulation_config/user_macros.n++ $(SRC_DIR)/simulation_config/user_particles.n++ $(SRC_DIR)/simulation_config/user_system.n++ $(SRC_DIR)/simulation_config/user_functions.n++
+	$(CC) $(CFLAGS) -c -o $(BUILD_DIR)/main.o $(SRC_DIR)/main.cpp $(LFLAGS)
+$(BUILD_DIR)/ParticleSystem.o: $(SRC_DIR)/ParticleSystem.cpp $(SRC_DIR)/ParticleSystem.h $(SRC_DIR)/Particle.h $(SRC_DIR)/Interaction.h
+	$(CC) $(CFLAGS) -c -o $(BUILD_DIR)/ParticleSystem.o $(SRC_DIR)/ParticleSystem.cpp $(LFLAGS)
+$(BUILD_DIR)/Particle.o: $(SRC_DIR)/Particle.cpp $(SRC_DIR)/Particle.h $(SRC_DIR)/Vec3D.h $(SRC_DIR)/color.h
+	$(CC) $(CFLAGS) -c -o $(BUILD_DIR)/Particle.o $(SRC_DIR)/Particle.cpp $(LFLAGS)
+$(BUILD_DIR)/Vec3D.o: $(SRC_DIR)/Vec3D.cpp $(SRC_DIR)/Vec3D.h
+	$(CC) $(CFLAGS) -c -o $(BUILD_DIR)/Vec3D.o $(SRC_DIR)/Vec3D.cpp $(LFLAGS)
+$(BUILD_DIR)/Force.o: $(SRC_DIR)/Force.cpp $(SRC_DIR)/Force.h $(SRC_DIR)/Vec3D.h $(SRC_DIR)/Particle.h $(SRC_DIR)/color.h
+	$(CC) $(CFLAGS) -c -o $(BUILD_DIR)/Force.o $(SRC_DIR)/Force.cpp $(LFLAGS)
+$(BUILD_DIR)/Interaction.o: $(SRC_DIR)/Interaction.cpp $(SRC_DIR)/Interaction.h $(SRC_DIR)/Force.h
+	$(CC) $(CFLAGS) -c -o $(BUILD_DIR)/Interaction.o $(SRC_DIR)/Interaction.cpp $(LFLAGS)
+$(BUILD_DIR)/my_forces.o: $(SRC_DIR)/my_forces.cpp $(SRC_DIR)/my_forces.h
+	$(CC) $(CFLAGS) -c -o $(BUILD_DIR)/my_forces.o $(SRC_DIR)/my_forces.cpp $(LFLAGS)
 
 clean:
 	rm $(BUILD_DIR)/*.o newton++

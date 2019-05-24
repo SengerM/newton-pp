@@ -59,8 +59,8 @@ if 'build' not in os.listdir():
 if 'simulation_results' not in os.listdir():
 	os.mkdir('simulation_results')
 
-os.system('make clean')
-os.system('make compile')
+os.system('rm newton++')
+os.system('make newton++')
 
 newton_thread.start()
 plotting_thread.start()
