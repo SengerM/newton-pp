@@ -85,8 +85,14 @@ void ParticleSystem::WriteToTXT(std::string filepath) {
 
 void ParticleSystem::WriteToBinary(std::string filepath) {
 	// Writes the time and position of each particle in a binary file with double numbers.
+	static bool first_call = true;
 	std::ofstream ofile;
 	ofile.open(filepath.c_str(), std::ios::out | std::ios::app | std::ios::binary);
+	if (first_call == true) {
+		double nparticles = nodes_vec.size();
+		ofile.write(reinterpret_cast<const char*>(&nparticles), sizeof(double));
+		first_call = false;
+	}
 	ofile.write(reinterpret_cast<const char*>(&time), sizeof(double));
 	for (size_t k = 0; k < nodes_vec.size(); k++) {
 		Vec3D aux = (*((nodes_vec[k]).particle)).Position();

@@ -18,6 +18,20 @@ def boundrange(number, min=0, max=1):
 		return max
 	return number
 
+def read_binary(filename):
+	data = np.fromfile(filename, dtype = np.double)
+	nparticles = int(data[0])
+	data = data[1:]
+	time = []
+	particles = []
+	for frame in range(int(len(data)/(3*nparticles+1))):
+		time.append(data[frame*(3*nparticles+1)])
+		particles.append([None]*nparticles)
+		for l in range(nparticles):
+			particles[frame][l] = data[frame*(3*nparticles+1)+1+l*3 : frame*(3*nparticles+1)+1+l*3+3+1]
+	return time, particles
+	
+
 class crystal_and_particle:
 	"""
 	This class is intended to store data of a crystal composed by N particles
@@ -99,7 +113,7 @@ class gas:
 						gas_now.append([float(i) for i in row[1+3*k:1+3*k+3]])
 					self.gas.append(gas_now)
 		elif filename[-3:] == 'bin':
-			raise NotImplementedError('Binary reading not yet implemented')
+			self.time, self.gas = read_binary(filename)
 		else:
 			raise ValueError('Dont know how to read a file of type "' + filename[-4:] + '"')
 		
