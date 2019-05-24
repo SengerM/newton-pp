@@ -18,31 +18,55 @@ def boundrange(number, min=0, max=1):
 		return max
 	return number
 
-def read_binary(filename):
-	data = np.fromfile(filename, dtype = np.double)
-	nparticles = int(data[0])
-	data = data[1:]
-	time = []
-	particles = []
-	for frame in range(int(len(data)/(3*nparticles+1))):
-		time.append(data[frame*(3*nparticles+1)])
-		particles.append([None]*nparticles)
-		for l in range(nparticles):
-			particles[frame][l] = data[frame*(3*nparticles+1)+1+l*3 : frame*(3*nparticles+1)+1+l*3+3+1]
-	return time, particles
+class nppreader:
+	def __init__(self, file):
+		self.file = file
+		self.time = None
+		self.particles = None
+	
+	def read_binary(self, filename):
+		data = np.fromfile(filename, dtype = np.double)
+		nparticles = int(data[0])
+		data = data[1:]
+		time = []
+		particles = []
+		for frame in range(int(len(data)/(3*nparticles+1))):
+			time.append(data[frame*(3*nparticles+1)])
+			particles.append([None]*nparticles)
+			for l in range(nparticles):
+				particles[frame][l] = data[frame*(3*nparticles+1)+1+l*3 : frame*(3*nparticles+1)+1+l*3+3+1]
+		return time, particles
 
-def read_csv(filename):
-	time = []
-	particles = []
-	with open(filename) as csvfile:
-		readCSV = csv.reader(csvfile, delimiter='\t')
-		for row in readCSV:
-			time.append(row[0])
-			particlesnow = []
-			for k in range(int((len(row)-1)/3)):
-				particlesnow.append([float(i) for i in row[1+3*k:1+3*k+3]])
-			particles.append(particlesnow)
-	return time, particles
+	def read_csv(self, filename):
+		time = []
+		particles = []
+		with open(filename) as csvfile:
+			readCSV = csv.reader(csvfile, delimiter='\t')
+			for row in readCSV:
+				time.append(row[0])
+				particlesnow = []
+				for k in range(int((len(row)-1)/3)):
+					particlesnow.append([float(i) for i in row[1+3*k:1+3*k+3]])
+				particles.append(particlesnow)
+		return time, particles
+	
+	def read(self):
+		if self.file[-3:] == 'csv':
+			self.time, self.particles = self.read_csv(self.file)
+		elif self.file[-3:] == 'bin':
+			self.time, self.particles = self.read_binary(self.file)
+		else:
+			raise ValueError('Dont know how to read a file of type "' + filename[-4:] + '"')
+	
+	def get_time(self):
+		if self.time == None:
+			self.read()
+		return self.time
+	
+	def get_particles(self):
+		if self.time == None:
+			self.read()
+		return self.particles
 	
 
 class crystal_and_particle:
@@ -114,14 +138,9 @@ class gas:
 	This is a "psystem" type class.
 	"""
 	def __init__(self, filename):
-		self.time = []
-		self.gas = []
-		if filename[-3:] == 'csv':
-			self.time, self.gas = read_csv(filename)
-		elif filename[-3:] == 'bin':
-			self.time, self.gas = read_binary(filename)
-		else:
-			raise ValueError('Dont know how to read a file of type "' + filename[-4:] + '"')
+		reader = nppreader(filename)
+		self.time = reader.get_time()
+		self.gas = reader.get_particles()
 		
 	def get_gas_x(self, frame):
 		return [p[0] for p in self.gas[frame]]
