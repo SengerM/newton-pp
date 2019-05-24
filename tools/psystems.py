@@ -2,7 +2,14 @@ import csv
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import numpy as np
-import zoomtools
+import sys
+
+current_path = sys.path[0]
+if current_path.split('/')[-1] != 'tools':
+	sys.path.insert(0, current_path+'/tools/')
+	from . import zoomtools
+else:
+	import zoomtools
 
 def boundrange(number, min=0, max=1):
 	if number < min:
@@ -99,7 +106,7 @@ class gas:
 		return [p[2] for p in self.gas[frame]]
 	
 	def get_gas_color(self, frame):
-		return (1,1,1)
+		return 'w'
 	
 	def get_scatter_x(self, frame):
 		return self.get_gas_x(frame)
