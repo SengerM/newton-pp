@@ -76,23 +76,10 @@ class crystal_and_particle:
 	This is a "psystem" type class.
 	"""
 	def __init__(self, filename):
-		self.time = []
-		self.crystal = []
-		self.particle = []
-		with open(filename) as csvfile:
-			readCSV = csv.reader(csvfile, delimiter='\t')
-			for row in readCSV:
-				self.time.append(row[0])
-				crystal_now = []
-				for k in range(int((len(row)-1-3)/3)):
-					crystal_now.append([float(i) for i in row[1+3*k:1+3*k+3]])
-				self.crystal.append(crystal_now)
-				self.particle.append([float(i) for i in row[-3:]])
-		# ~ data = np.genfromtxt(filename, delimiter='\t').transpose()
-		# ~ self.time = data[0]
-		# ~ self.particle = np.array([data[-3], data[-2], data[-1]]).transpose()
-		# ~ self.crystal = [[data[3*k+1], data[3*k+2], data[3*k+3]] for k in range(int((len(data)-1-3)/3))]
-		# ~ print(len(self.crystal[0]))
+		reader = nppreader(filename)
+		self.time = reader.get_time()
+		self.crystal = [all_particles[:-1] for all_particles in reader.get_particles()]
+		self.particle = [all_particles[-1] for all_particles in reader.get_particles()]
 		
 	def get_crystal_x(self, frame):
 		return [p[0] for p in self.crystal[frame]]
