@@ -1,0 +1,11 @@
+// This will be copy/pasted in the main "for loop" in which the calculation
+// is performed. For changing parameters along the simulation time you can
+// write here. The "for loop" runs with <i> from 0 to <I>.
+
+if (i < I*.8) {
+	double current_volume = INITIAL_VOLUME + (FINAL_VOLUME-INITIAL_VOLUME)*i/(I*.8);
+	wall_positions[0] = Vec3D(sqrt(current_volume)/2, 0, 0),
+	wall_positions[1] = Vec3D(-sqrt(current_volume)/2, 0, 0),
+	wall_positions[2] = Vec3D(0, sqrt(current_volume)/2, 0),
+	wall_positions[3] = Vec3D(0, -sqrt(current_volume)/2, 0);
+}

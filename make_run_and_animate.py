@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import datetime
 from time import sleep
 
-from tools.psystems import gas
+from tools import psystems as psys
 from tools.psystems import plot_snapshot
 
 def get_timestamp():
@@ -35,7 +35,9 @@ def plot_preview(newton_thread, sim_number):
 	while newton_thread.isAlive():
 		while sim_number not in os.listdir('simulation_results'):
 			sleep(1)
-		system = gas('simulation_results/' + simulation_timestamp + '/simulation_output.txt')
+		while 'data.bin' not in os.listdir('simulation_results/' + sim_number):
+			sleep(1)
+		system = psys.gas('simulation_results/' + simulation_timestamp + '/data.bin')
 		fig, ax = plot_snapshot(system, len(system.time)-1)
 		fig.savefig(
 			'simulation_results/' + simulation_timestamp + '/preview.png', 
@@ -69,3 +71,5 @@ while newton_thread.isAlive() or plotting_thread.isAlive():
 	sleep(1)
 
 os.system('python3 tools/generate_animation_file.py ' + 'simulation_results/' + simulation_timestamp)
+
+print('Finished!')

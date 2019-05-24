@@ -9,7 +9,7 @@ parser.add_argument('isimpath', help='directory containing the output data of ne
 
 args = parser.parse_args()
 
-system = psys.gas(args.isimpath + '/simulation_output.txt')
+system = psys.gas(args.isimpath + '/data.bin')
 animation = psys.animate_system(system)
 
 plt.show()
