@@ -30,6 +30,19 @@ def read_binary(filename):
 		for l in range(nparticles):
 			particles[frame][l] = data[frame*(3*nparticles+1)+1+l*3 : frame*(3*nparticles+1)+1+l*3+3+1]
 	return time, particles
+
+def read_csv(filename):
+	time = []
+	particles = []
+	with open(filename) as csvfile:
+		readCSV = csv.reader(csvfile, delimiter='\t')
+		for row in readCSV:
+			time.append(row[0])
+			particlesnow = []
+			for k in range(int((len(row)-1)/3)):
+				particlesnow.append([float(i) for i in row[1+3*k:1+3*k+3]])
+			particles.append(particlesnow)
+	return time, particles
 	
 
 class crystal_and_particle:
@@ -104,14 +117,7 @@ class gas:
 		self.time = []
 		self.gas = []
 		if filename[-3:] == 'csv':
-			with open(filename) as csvfile:
-				readCSV = csv.reader(csvfile, delimiter='\t')
-				for row in readCSV:
-					self.time.append(row[0])
-					gas_now = []
-					for k in range(int((len(row)-1)/3)):
-						gas_now.append([float(i) for i in row[1+3*k:1+3*k+3]])
-					self.gas.append(gas_now)
+			self.time, self.gas = read_csv(filename)
 		elif filename[-3:] == 'bin':
 			self.time, self.gas = read_binary(filename)
 		else:
