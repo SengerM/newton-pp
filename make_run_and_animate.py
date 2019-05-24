@@ -42,7 +42,7 @@ def plot_preview(newton_thread, sim_number):
 			facecolor = 'black',
 		)
 		plt.close(fig)
-		sleep(3)
+		sleep(5)
 
 newton_thread = threading.Thread(
 	target = lambda: os.system('./newton++ ' + simulation_timestamp), 
