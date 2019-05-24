@@ -8,7 +8,7 @@ SRC_DIR = src
 newton++: $(BUILD_DIR)/main.o $(BUILD_DIR)/ParticleSystem.o $(BUILD_DIR)/Particle.o $(BUILD_DIR)/Vec3D.o $(BUILD_DIR)/Force.o $(BUILD_DIR)/Interaction.o $(BUILD_DIR)/my_forces.o
 	$(CC) $(CFLAGS) -o newton++ $(BUILD_DIR)/*.o $(LFLAGS)
 
-$(BUILD_DIR)/main.o: $(SRC_DIR)/main.cpp $(SRC_DIR)/main.h $(SRC_DIR)/simulation_config/simulation_macros.n++ $(SRC_DIR)/simulation_config/user_forces.n++ $(SRC_DIR)/simulation_config/user_macros.n++ $(SRC_DIR)/simulation_config/user_particles.n++ $(SRC_DIR)/simulation_config/user_system.n++ $(SRC_DIR)/simulation_config/user_functions.n++
+$(BUILD_DIR)/main.o: $(SRC_DIR)/main.cpp $(SRC_DIR)/main.h $(SRC_DIR)/simulation_config/simulation_macros.n++ $(SRC_DIR)/simulation_config/user_forces.n++ $(SRC_DIR)/simulation_config/user_macros.n++ $(SRC_DIR)/simulation_config/user_particles.n++ $(SRC_DIR)/simulation_config/user_system.n++ $(SRC_DIR)/simulation_config/user_functions.n++ $(SRC_DIR)/simulation_config/loop_action.n++
 	$(CC) $(CFLAGS) -c -o $(BUILD_DIR)/main.o $(SRC_DIR)/main.cpp $(LFLAGS)
 $(BUILD_DIR)/ParticleSystem.o: $(SRC_DIR)/ParticleSystem.cpp $(SRC_DIR)/ParticleSystem.h $(SRC_DIR)/Particle.h $(SRC_DIR)/Interaction.h
 	$(CC) $(CFLAGS) -c -o $(BUILD_DIR)/ParticleSystem.o $(SRC_DIR)/ParticleSystem.cpp $(LFLAGS)

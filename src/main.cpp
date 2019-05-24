@@ -102,13 +102,7 @@ int main(int argc, char** argv) {
 		}
 		if (((i*100)/I)%PERCENTAGE_PRINT_STEP == 0)
 			print_percentage(i,I);
-		if (i < I*.8) {
-			double current_volume = INITIAL_VOLUME + (FINAL_VOLUME-INITIAL_VOLUME)*i/(I*.8);
-			wall_positions[0] = Vec3D(sqrt(current_volume)/2, 0, 0),
-			wall_positions[1] = Vec3D(-sqrt(current_volume)/2, 0, 0),
-			wall_positions[2] = Vec3D(0, sqrt(current_volume)/2, 0),
-			wall_positions[3] = Vec3D(0, -sqrt(current_volume)/2, 0);
-		}
+		#include "simulation_config/loop_action.n++"
 	}
 	print_percentage(i,I);
 	cerr << endl;
