@@ -16,6 +16,8 @@
 #include <limits>
 #include "simulation_config/simulation_macros.n++"
 
+//~ #define _VERBOSE_
+
 #define PI 3.14159265359
 
 #define OUTPUT_DIRECTORY "simulation_results"

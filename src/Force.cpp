@@ -28,7 +28,6 @@ bool Force::Check(void) {
 		cerr << WARNING_MSG << "Force object named «" << name << "» is not ready to use." << endl;
 		return false;
 	}
-	cerr << "Force object named " << BOLD << UNDERLINE << name << RST << " is ready to use." << endl;
 	is_ready = true;
 	return true;
 }

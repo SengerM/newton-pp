@@ -11,8 +11,10 @@ int main(int argc, char** argv) {
 	// ------------------------------------------------- //
 
 	// Begin --------------------------------------------------------
+	#ifdef _VERBOSE_
 	system("clear");
 	cerr << INIT_MSG << endl;
+	#endif
 	if (argc > 2) {
 		cerr << "wrong arguments" << endl;
 		return 1;
@@ -21,11 +23,13 @@ int main(int argc, char** argv) {
 	else
 		timeString = now();
 	// --------------------------------------------------------------
+	#ifdef _VERBOSE_
 	cerr << BOLD << "Simulation number: " << RST << timeString << endl;
-	cerr << BOLD << '\t' << "Simulation time: " << RST << SIMULATION_TIME << endl;
-	cerr << BOLD << '\t' << "Time step: " << RST << TIME_STEP << endl;
-	cerr << BOLD << '\t' << "Number of data points to be exported: " << RST << N_EXPORT_POINTS << endl;
+	cerr << BOLD << "Simulation time: " << RST << SIMULATION_TIME << endl;
+	cerr << BOLD << "Time step: " << RST << TIME_STEP << endl;
+	cerr << BOLD << "Number of data points to be exported: " << RST << N_EXPORT_POINTS << endl;
 	cerr << "-------------------" << endl;
+	#endif
 	
 	path_str = string("");
 	path_str.append(OUTPUT_DIRECTORY);
@@ -39,15 +43,21 @@ int main(int argc, char** argv) {
 	
 	#include "simulation_config/user_macros.n++"
 	// Particles ----------------------------------------
+	#ifdef _VERBOSE_
 	cerr << "Creating and configuring particles... " << endl;
+	#endif
 	#include "simulation_config/user_particles.n++"
 	// ----------------------------------------------------
 	// FORCES ----------------------------------------- //
+	#ifdef _VERBOSE_
 	cerr << "Creating and configuring forces... " << endl;
+	#endif
 	#include "simulation_config/user_forces.n++" // In this file is where the user has to define the forces.
 	// ------------------------------------------------ //
 	// System of particles ----------------------------- //
+	#ifdef _VERBOSE_
 	cerr << "Creating and configuring system of particles..." << endl;
+	#endif
 	#include "simulation_config/user_system.n++"
 	sys.CalcForces(); // Calculates the forces to their initial value.
 	// ----------------------------------------------------
@@ -67,17 +77,20 @@ int main(int argc, char** argv) {
 	ofile.close();
 	// ------------------------------------------------------------------------
 	
+	#ifdef _VERBOSE_
 	//~ cerr << KGRN << "Initial conditions are: --------" << RST << endl;
 	//~ sys.Print(cerr);
 	cerr << KGRN << "--------------------------------" << RST << endl;
+	#endif
 	// ---------------------------------------------------------
 	
 	// Calculation ---------------------------------------------
+	#ifdef _VERBOSE_
 	cerr << "Preparing calculation..." << endl;
+	#endif
 	gpstr = path_str;
 	gpstr.append("/");
 	gpstr.append(OUTPUT_DATA_TEXT_FILE);
-	
 	
 	cerr << "Calculating... ";
 	cerr << "00 %";
@@ -104,8 +117,9 @@ int main(int argc, char** argv) {
 	cerr << endl;
 	
 	// -------------------------------------------------- //
-
+	#ifdef _VERBOSE_
 	cerr << LAST_MSG << endl;
+	#endif
 	
 }
 
