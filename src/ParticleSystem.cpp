@@ -258,13 +258,16 @@ Vec3D ParticleSystem::get_force_if(SysNode & node, Vec3D & position) { // Get fo
 void ParticleSystem::StepEuler(double h) { // Evolves the system one step of time «h» using the Euler's method.
 	this->CalcForces(); // Update the forces of the system. 
 	
-	size_t 	k;
+	size_t 	k,
+			N_particles = this->nodes_vec.size();
 	double 	m; // mass.
 	Vec3D 	r, // position.
 			v, // velocity.
 			F; // force.
 	
-	for (k=0; k<nodes_vec.size(); k++) {
+	std::vector<Vec3D> 	new_positions(N_particles),
+						new_velocities(N_particles);
+	for (k=0; k<N_particles; k++) {
 		r = (*((nodes_vec[k]).particle)).Position(); // Current position of the k'th particle.
 		v = (*((nodes_vec[k]).particle)).Velocity(); // Current speed of the k'th particle.
 		F = ((nodes_vec[k]).net_force); // Current force acting on the k'th particle.
@@ -276,8 +279,12 @@ void ParticleSystem::StepEuler(double h) { // Evolves the system one step of tim
 		//~ (*((nodes_vec[k]).particle)).Position() = r;
 		//~ (*((nodes_vec[k]).particle)).Velocity() = v;
 		// The following is the new piece of code (a litle bit more eficcient):
-		(*((nodes_vec[k]).particle)).Position() = r + (v + F*(h/(2*m)))*h; // New position of the k'th particle.
-		(*((nodes_vec[k]).particle)).Velocity() = v + F/m*h; // New velocity of the k'th particle.
+		new_positions[k] = r + (v + F*(h/(2*m)))*h; // New position of the k'th particle.
+		new_velocities[k] = v + F/m*h; // New velocity of the k'th particle.
+	}
+	for (k=0; k<N_particles; k++) {
+		(*((nodes_vec[k]).particle)).Position() = new_positions[k]; // New position of the k'th particle.
+		(*((nodes_vec[k]).particle)).Velocity() = new_velocities[k]; // New velocity of the k'th particle.
 	}
 	time += h;
 }
