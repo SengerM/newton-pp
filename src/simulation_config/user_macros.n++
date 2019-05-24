@@ -1,6 +1,6 @@
 #include <cstdlib>
 
-#define N_PARTICLES 100
+#define N_PARTICLES 10
 
 #define _r0_ .25
 #define _r1_ 1
