@@ -35,6 +35,8 @@ def plot_preview(newton_thread, sim_number):
 	while newton_thread.isAlive():
 		while sim_number not in os.listdir('simulation_results'):
 			sleep(1)
+		while 'simulation_output.txt' not in os.listdir('simulation_results/' + sim_number):
+			sleep(1)
 		system = gas('simulation_results/' + simulation_timestamp + '/simulation_output.txt')
 		fig, ax = plot_snapshot(system, len(system.time)-1)
 		fig.savefig(
@@ -69,3 +71,5 @@ while newton_thread.isAlive() or plotting_thread.isAlive():
 	sleep(1)
 
 os.system('python3 tools/generate_animation_file.py ' + 'simulation_results/' + simulation_timestamp)
+
+print('Finished!')
