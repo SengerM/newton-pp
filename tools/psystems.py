@@ -25,7 +25,7 @@ class nppreader:
 		self.particles = None
 	
 	def read_binary(self, filename):
-		data = np.fromfile(filename, dtype = np.double)
+		data = np.fromfile(filename, dtype = '<f4')
 		nparticles = int(data[0])
 		data = data[1:]
 		time = []

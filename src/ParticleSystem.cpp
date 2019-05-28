@@ -84,22 +84,22 @@ void ParticleSystem::WriteToTXT(std::string filepath) {
 }
 
 void ParticleSystem::WriteToBinary(std::string filepath) {
-	// Writes the time and position of each particle in a binary file with double numbers.
+	// Writes the time and position of each particle in a binary file with float numbers.
 	static bool first_call = true;
 	std::ofstream ofile;
 	ofile.open(filepath.c_str(), std::ios::out | std::ios::app | std::ios::binary);
 	if (first_call == true) {
-		double nparticles = nodes_vec.size();
-		ofile.write(reinterpret_cast<const char*>(&nparticles), sizeof(double));
+		float nparticles = nodes_vec.size();
+		ofile.write(reinterpret_cast<const char*>(&nparticles), sizeof(float));
 		first_call = false;
 	}
-	ofile.write(reinterpret_cast<const char*>(&time), sizeof(double));
+	ofile.write(reinterpret_cast<const char*>(&time), sizeof(float));
 	for (size_t k = 0; k < nodes_vec.size(); k++) {
 		Vec3D aux = (*((nodes_vec[k]).particle)).Position();
-		double x = aux.GetX(), y = aux.GetY(), z = aux.GetZ();
-		ofile.write(reinterpret_cast<const char*>(&x), sizeof(double));
-		ofile.write(reinterpret_cast<const char*>(&y), sizeof(double));
-		ofile.write(reinterpret_cast<const char*>(&z), sizeof(double));
+		float x = aux.GetX(), y = aux.GetY(), z = aux.GetZ();
+		ofile.write(reinterpret_cast<const char*>(&x), sizeof(float));
+		ofile.write(reinterpret_cast<const char*>(&y), sizeof(float));
+		ofile.write(reinterpret_cast<const char*>(&z), sizeof(float));
 	}
 	ofile.close();
 }
