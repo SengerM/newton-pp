@@ -287,24 +287,22 @@ void ParticleSystem::StepEuler(double h) { // Evolves the system one step of tim
 	
 	std::vector<Vec3D> 	new_positions(N_particles),
 						new_velocities(N_particles);
-	for (k=0; k<N_particles; k++) {
-		r = (*((nodes_vec[k]).particle)).Position(); // Current position of the k'th particle.
-		v = (*((nodes_vec[k]).particle)).Velocity(); // Current speed of the k'th particle.
-		F = ((nodes_vec[k]).net_force); // Current force acting on the k'th particle.
-		m = (*((nodes_vec[k]).particle)).Mass(); // Mass of the k'th particle.
-		// This part of code is old. It worked fine but the new part is improoved. I left it here for reference, just in case...
-		//~ r = r + v*h;
-		//~ r = r + F/m*h*h/2;
-		//~ v = v + F/m*h;
-		//~ (*((nodes_vec[k]).particle)).Position() = r;
-		//~ (*((nodes_vec[k]).particle)).Velocity() = v;
-		// The following is the new piece of code (a litle bit more eficcient):
-		new_positions[k] = r + (v + F*(h/(2*m)))*h; // New position of the k'th particle.
-		new_velocities[k] = v + F/m*h; // New velocity of the k'th particle.
-	}
-	for (k=0; k<N_particles; k++) {
-		(*((nodes_vec[k]).particle)).Position() = new_positions[k]; // New position of the k'th particle.
-		(*((nodes_vec[k]).particle)).Velocity() = new_velocities[k]; // New velocity of the k'th particle.
+	#pragma omp parallel num_threads(3)
+	{
+		#pragma omp for
+		for (k=0; k<N_particles; k++) {
+			r = (*((nodes_vec[k]).particle)).Position(); // Current position of the k'th particle.
+			v = (*((nodes_vec[k]).particle)).Velocity(); // Current speed of the k'th particle.
+			F = ((nodes_vec[k]).net_force); // Current force acting on the k'th particle.
+			m = (*((nodes_vec[k]).particle)).Mass(); // Mass of the k'th particle.
+			new_positions[k] = r + (v + F*(h/(2*m)))*h; // New position of the k'th particle.
+			new_velocities[k] = v + F/m*h; // New velocity of the k'th particle.
+		}
+		#pragma omp for
+		for (k=0; k<N_particles; k++) {
+			(*((nodes_vec[k]).particle)).Position() = new_positions[k]; // New position of the k'th particle.
+			(*((nodes_vec[k]).particle)).Velocity() = new_velocities[k]; // New velocity of the k'th particle.
+		}
 	}
 	time += h;
 }

@@ -1,6 +1,6 @@
 CC = g++
 CFLAGS = -ansi -pedantic -Wall -std=c++11
-LFLAGS = -lm
+LFLAGS = -lm -fopenmp
 
 BUILD_DIR = build
 SRC_DIR = src
