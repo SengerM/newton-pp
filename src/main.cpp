@@ -96,16 +96,12 @@ int main(int argc, char** argv) {
 	cerr << "00 %";
 	I = SIMULATION_TIME/TIME_STEP; // Final value of the counter "i".
 	for (i=0; i<I; i++) {
-		auto start_time = std::chrono::high_resolution_clock::now();
 		sys.StepEuler(TIME_STEP);
-		auto end_time = std::chrono::high_resolution_clock::now();
-		auto time = end_time - start_time;
 		if (i > TIME_TO_START_SAVING_DATA/TIME_STEP && (i%size_t((I-TIME_TO_START_SAVING_DATA/TIME_STEP)/N_EXPORT_POINTS) == 0) ) {
 			sys.WriteToBinary(path_str + "/data.bin");
 		}
 		if (((i*100)/I)%PERCENTAGE_PRINT_STEP == 0) {
 			print_percentage(i,I);
-			cerr << " Elapsed time: " << time/std::chrono::microseconds(1) <<'\b'<<'\b'<<'\b'<<'\b'<<'\b'<<'\b'<<'\b'<<'\b'<<'\b'<<'\b'<<'\b'<<'\b'<<'\b'<<'\b'<<'\b'<<'\b'<<'\b'<<'\b';
 		}
 		#include "simulation_config/loop_action.n++"
 	}
