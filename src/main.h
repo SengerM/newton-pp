@@ -9,6 +9,7 @@
 #include <fstream>
 #include <stdlib.h>
 #include <cmath>
+#include <chrono>
 #include <ctime>
 #include <string>
 #include <iomanip>

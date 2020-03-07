@@ -173,20 +173,21 @@ void ParticleSystem::AddInteraction(Particle & a, Force & force) { // This is fo
 }
 
 void ParticleSystem::CalcForces(void) { // Calculates all the forces of the system with the current state of the particles and parameters (and time).
-	size_t k, l, n_interactions;
-	Vec3D aux_vec;
-	Force *force;
-	Interaction *current_interaction;
-	Particle current_particle, interacting_particle;
-	
-	for (k=0; k<nodes_vec.size(); k++) {
+	#ifdef _PARALLEL_
+	#pragma omp parallel for
+	#endif
+	for (size_t k=0; k<nodes_vec.size(); k++) {
+		Vec3D aux_vec;
+		Force *force;
+		Interaction *current_interaction;
+		Particle current_particle, interacting_particle;
 		if ((nodes_vec[k]).interactions == NULL) { // This means the particle has no interactions.
 			continue;
 		}
 		current_particle = *((nodes_vec[k]).particle);
-		n_interactions = ((*((nodes_vec[k]).interactions)).size());
+		size_t n_interactions = ((*((nodes_vec[k]).interactions)).size());
 		(nodes_vec[k]).net_force = Vec3D(0,0,0); // Clear the net force.
-		for (l=0; l<n_interactions; l++) {
+		for (size_t l=0; l<n_interactions; l++) {
 			current_interaction = &((*((nodes_vec[k]).interactions))[l]);
 			force = &(current_interaction->GetForce());
 			if (force->IsField()) {
@@ -287,21 +288,24 @@ void ParticleSystem::StepEuler(double h) { // Evolves the system one step of tim
 	
 	std::vector<Vec3D> 	new_positions(N_particles),
 						new_velocities(N_particles);
+	#ifdef _PARALLEL_
+	#pragma omp parallel for
+	#endif
 	for (k=0; k<N_particles; k++) {
+		double 	m; // mass.
+		Vec3D 	r, // position.
+				v, // velocity.
+				F; // force.
 		r = (*((nodes_vec[k]).particle)).Position(); // Current position of the k'th particle.
 		v = (*((nodes_vec[k]).particle)).Velocity(); // Current speed of the k'th particle.
 		F = ((nodes_vec[k]).net_force); // Current force acting on the k'th particle.
 		m = (*((nodes_vec[k]).particle)).Mass(); // Mass of the k'th particle.
-		// This part of code is old. It worked fine but the new part is improoved. I left it here for reference, just in case...
-		//~ r = r + v*h;
-		//~ r = r + F/m*h*h/2;
-		//~ v = v + F/m*h;
-		//~ (*((nodes_vec[k]).particle)).Position() = r;
-		//~ (*((nodes_vec[k]).particle)).Velocity() = v;
-		// The following is the new piece of code (a litle bit more eficcient):
 		new_positions[k] = r + (v + F*(h/(2*m)))*h; // New position of the k'th particle.
 		new_velocities[k] = v + F/m*h; // New velocity of the k'th particle.
 	}
+	#ifdef _PARALLEL_
+	#pragma omp parallel for
+	#endif
 	for (k=0; k<N_particles; k++) {
 		(*((nodes_vec[k]).particle)).Position() = new_positions[k]; // New position of the k'th particle.
 		(*((nodes_vec[k]).particle)).Velocity() = new_velocities[k]; // New velocity of the k'th particle.
