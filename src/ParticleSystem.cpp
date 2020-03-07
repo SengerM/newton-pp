@@ -173,20 +173,19 @@ void ParticleSystem::AddInteraction(Particle & a, Force & force) { // This is fo
 }
 
 void ParticleSystem::CalcForces(void) { // Calculates all the forces of the system with the current state of the particles and parameters (and time).
-	size_t k, l, n_interactions;
-	Vec3D aux_vec;
-	Force *force;
-	Interaction *current_interaction;
-	Particle current_particle, interacting_particle;
-	
-	for (k=0; k<nodes_vec.size(); k++) {
+	#pragma omp parallel for
+	for (size_t k=0; k<nodes_vec.size(); k++) {
+		Vec3D aux_vec;
+		Force *force;
+		Interaction *current_interaction;
+		Particle current_particle, interacting_particle;
 		if ((nodes_vec[k]).interactions == NULL) { // This means the particle has no interactions.
 			continue;
 		}
 		current_particle = *((nodes_vec[k]).particle);
-		n_interactions = ((*((nodes_vec[k]).interactions)).size());
+		size_t n_interactions = ((*((nodes_vec[k]).interactions)).size());
 		(nodes_vec[k]).net_force = Vec3D(0,0,0); // Clear the net force.
-		for (l=0; l<n_interactions; l++) {
+		for (size_t l=0; l<n_interactions; l++) {
 			current_interaction = &((*((nodes_vec[k]).interactions))[l]);
 			force = &(current_interaction->GetForce());
 			if (force->IsField()) {
