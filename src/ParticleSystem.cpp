@@ -173,7 +173,9 @@ void ParticleSystem::AddInteraction(Particle & a, Force & force) { // This is fo
 }
 
 void ParticleSystem::CalcForces(void) { // Calculates all the forces of the system with the current state of the particles and parameters (and time).
+	#ifdef _PARALLEL_
 	#pragma omp parallel for
+	#endif
 	for (size_t k=0; k<nodes_vec.size(); k++) {
 		Vec3D aux_vec;
 		Force *force;
@@ -286,7 +288,9 @@ void ParticleSystem::StepEuler(double h) { // Evolves the system one step of tim
 	
 	std::vector<Vec3D> 	new_positions(N_particles),
 						new_velocities(N_particles);
+	#ifdef _PARALLEL_
 	#pragma omp parallel for
+	#endif
 	for (k=0; k<N_particles; k++) {
 		double 	m; // mass.
 		Vec3D 	r, // position.
@@ -299,7 +303,9 @@ void ParticleSystem::StepEuler(double h) { // Evolves the system one step of tim
 		new_positions[k] = r + (v + F*(h/(2*m)))*h; // New position of the k'th particle.
 		new_velocities[k] = v + F/m*h; // New velocity of the k'th particle.
 	}
+	#ifdef _PARALLEL_
 	#pragma omp parallel for
+	#endif
 	for (k=0; k<N_particles; k++) {
 		(*((nodes_vec[k]).particle)).Position() = new_positions[k]; // New position of the k'th particle.
 		(*((nodes_vec[k]).particle)).Velocity() = new_velocities[k]; // New velocity of the k'th particle.
