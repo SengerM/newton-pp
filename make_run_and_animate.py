@@ -2,7 +2,7 @@ import threading
 import os
 import matplotlib.pyplot as plt
 import datetime
-from time import sleep
+import time
 
 from tools import psystems as psys
 from tools.psystems import plot_snapshot
@@ -26,7 +26,7 @@ def get_timestamp():
 	['20181013235501158401', '20181013235501158583']
 	"""
 	timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S%f')
-	sleep(10e-6) # This ensures that there will not exist two equal timestamps.
+	time.sleep(10e-6) # This ensures that there will not exist two equal timestamps.
 	return timestamp
 
 simulation_timestamp = get_timestamp()
@@ -34,9 +34,9 @@ simulation_timestamp = get_timestamp()
 def plot_preview(newton_thread, sim_number):
 	while newton_thread.isAlive():
 		while sim_number not in os.listdir('simulation_results'):
-			sleep(1)
+			time.sleep(1)
 		while 'data.bin' not in os.listdir('simulation_results/' + sim_number):
-			sleep(1)
+			time.sleep(1)
 		system = psys.gas('simulation_results/' + simulation_timestamp + '/data.bin')
 		fig, ax = plot_snapshot(system, len(system.time)-1)
 		fig.savefig(
@@ -44,10 +44,16 @@ def plot_preview(newton_thread, sim_number):
 			facecolor = 'black',
 		)
 		plt.close(fig)
-		sleep(5)
+		time.sleep(5)
+
+def run_newton_pp():
+	start = time.time()
+	os.system('./newton++ ' + simulation_timestamp)
+	end = time.time()
+	print('newton++ execution time was ' + str(end-start) + ' seconds')
 
 newton_thread = threading.Thread(
-	target = lambda: os.system('./newton++ ' + simulation_timestamp), 
+	target = run_newton_pp, 
 	name = 'newton++'
 )
 plotting_thread = threading.Thread(
@@ -68,7 +74,7 @@ newton_thread.start()
 plotting_thread.start()
 
 while newton_thread.isAlive() or plotting_thread.isAlive():
-	sleep(1)
+	time.sleep(1)
 
 os.system('python3 tools/generate_animation_file.py ' + 'simulation_results/' + simulation_timestamp)
 

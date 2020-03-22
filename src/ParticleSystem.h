@@ -9,6 +9,8 @@
 
 #define PRINTTXT_SEP_CHAR "\t"
 
+#define _PARALLEL_
+
 struct SysNode { // This class specifies the nodes in wich there are stored the particles of the system.
 	Particle * particle; // Pointer to the current particle.
 	std::vector<Interaction> * interactions; // Pointer to a vector of interactions.

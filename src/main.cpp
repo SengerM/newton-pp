@@ -100,8 +100,9 @@ int main(int argc, char** argv) {
 		if (i > TIME_TO_START_SAVING_DATA/TIME_STEP && (i%size_t((I-TIME_TO_START_SAVING_DATA/TIME_STEP)/N_EXPORT_POINTS) == 0) ) {
 			sys.WriteToBinary(path_str + "/data.bin");
 		}
-		if (((i*100)/I)%PERCENTAGE_PRINT_STEP == 0)
+		if (((i*100)/I)%PERCENTAGE_PRINT_STEP == 0) {
 			print_percentage(i,I);
+		}
 		#include "simulation_config/loop_action.n++"
 	}
 	print_percentage(i,I);
