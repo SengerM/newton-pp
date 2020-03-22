@@ -317,12 +317,25 @@ double ParticleSystem::GetTime(void) {
 	return time;
 }
 
-double ParticleSystem::CalculateKineticEnergy(void) {
+double ParticleSystem::CalculateKineticEnergy(Vec3D frame_velocity = Vec3D()) {
 	double energy = 0;
 	for (size_t i = 0; i < this->nodes_vec.size(); i++) {
 		double mass = (*((nodes_vec[i]).particle)).Mass();
-		double speed = (*((nodes_vec[i]).particle)).Velocity().Abs();
+		double speed = ( (*((nodes_vec[i]).particle)).Velocity() - frame_velocity ).Abs();
 		energy += mass/2*speed*speed;
 	}
 	return energy;
+}
+
+Vec3D ParticleSystem::CalculateCenterOfMassVelocity(void) {
+	Vec3D center_of_mass_velocity;
+	double total_mass = 0;
+	for (size_t i = 0; i < this->nodes_vec.size(); i++) {
+		double mass = (*((nodes_vec[i]).particle)).Mass();
+		Vec3D velocity = (*((nodes_vec[i]).particle)).Velocity();
+		center_of_mass_velocity = center_of_mass_velocity + velocity*mass;
+		total_mass += mass;
+	}
+	center_of_mass_velocity = center_of_mass_velocity/total_mass;
+	return center_of_mass_velocity;
 }
