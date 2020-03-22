@@ -3,6 +3,7 @@ import os
 import matplotlib.pyplot as plt
 import datetime
 import time
+import numpy as np
 
 from tools import psystems as psys
 from tools.psystems import plot_snapshot
@@ -37,6 +38,8 @@ def plot_preview(newton_thread, sim_number):
 			time.sleep(1)
 		while 'data.bin' not in os.listdir('simulation_results/' + sim_number):
 			time.sleep(1)
+		time.sleep(5)
+		
 		system = psys.gas('simulation_results/' + simulation_timestamp + '/data.bin')
 		fig, ax = plot_snapshot(system, len(system.time)-1)
 		fig.savefig(
@@ -44,7 +47,14 @@ def plot_preview(newton_thread, sim_number):
 			facecolor = 'black',
 		)
 		plt.close(fig)
-		time.sleep(5)
+		
+		data = np.genfromtxt('simulation_results/' + simulation_timestamp + '/energy.txt').transpose()
+		fig, ax = plt.subplots()
+		ax.plot(data[0], data[1])
+		ax.set_xlabel('Time')
+		ax.set_ylabel('Energy')
+		fig.savefig('simulation_results/' + simulation_timestamp + '/energy.png')
+		plt.close(fig)
 
 def run_newton_pp():
 	start = time.time()
