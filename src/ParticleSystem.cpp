@@ -316,3 +316,13 @@ void ParticleSystem::StepEuler(double h) { // Evolves the system one step of tim
 double ParticleSystem::GetTime(void) {
 	return time;
 }
+
+double ParticleSystem::CalculateKineticEnergy(void) {
+	double energy = 0;
+	for (size_t i = 0; i < this->nodes_vec.size(); i++) {
+		double mass = (*((nodes_vec[i]).particle)).Mass();
+		double speed = (*((nodes_vec[i]).particle)).Velocity().Abs();
+		energy += mass/2*speed*speed;
+	}
+	return energy;
+}

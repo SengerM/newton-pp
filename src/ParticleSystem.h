@@ -44,6 +44,7 @@ public:
 	void CalcForces(void); // Calculates all the forces of the system with the current state of the particles and parameters (and time).
 	void StepRK4(double h); // Evolves the system one step of time «h» using the method Runge-Kutta 4.
 	void StepEuler(double h); // Evolves the system one step of time «h» using the Euler's method.
+	double CalculateKineticEnergy(void); // Calculates the kinetic energy of the system and returns it.
 	
 	double GetTime();
 };
