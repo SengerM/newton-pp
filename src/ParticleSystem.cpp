@@ -281,7 +281,6 @@ void ParticleSystem::StepEuler(double h) { // Evolves the system one step of tim
 	
 	size_t 	k,
 			N_particles = this->nodes_vec.size();
-	double 	m; // mass.
 	Vec3D 	r, // position.
 			v, // velocity.
 			F; // force.
@@ -338,4 +337,17 @@ Vec3D ParticleSystem::CalculateCenterOfMassVelocity(void) {
 	}
 	center_of_mass_velocity = center_of_mass_velocity/total_mass;
 	return center_of_mass_velocity;
+}
+
+Vec3D ParticleSystem::CalculateCenterOfMassPosition(void) {
+	Vec3D center_of_mass_position;
+	double total_mass = 0;
+	for (size_t i = 0; i < this->nodes_vec.size(); i++) {
+		double mass = (*((nodes_vec[i]).particle)).Mass();
+		Vec3D position = (*((nodes_vec[i]).particle)).Position();
+		center_of_mass_position = center_of_mass_position + position*mass;
+		total_mass += mass;
+	}
+	center_of_mass_position = center_of_mass_position/total_mass;
+	return center_of_mass_position;
 }

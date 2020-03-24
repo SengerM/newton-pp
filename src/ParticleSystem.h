@@ -46,6 +46,7 @@ public:
 	void StepEuler(double h); // Evolves the system one step of time «h» using the Euler's method.
 	double CalculateKineticEnergy(Vec3D frame_velocity); // Calculates the kinetic energy of the system and returns it.
 	Vec3D CalculateCenterOfMassVelocity(void);
+	Vec3D CalculateCenterOfMassPosition(void);
 	
 	double GetTime();
 };
