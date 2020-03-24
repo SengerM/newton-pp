@@ -15,6 +15,7 @@ for (j=0; j<N_PARTICLES; j++) {
 		sys.AddInteraction(particles[j], walls_dissipative[k]);
 	}
 	sys.AddInteraction(particles[j], gravity);
+	sys.AddInteraction(particles[j], dissipation_in_volume_field);
 }
 
 int ya_se_enfrio = 0;

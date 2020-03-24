@@ -41,3 +41,7 @@ for (j=0; j<4; j++) {
 Force	gravity("gravity", uniform_gravitational_field, 1, true);
 Vec3D	gravitational_acceleration(0,-GRAVITATIONAL_ACCELERATION,0);
 gravity.AddParameter(&gravitational_acceleration);
+
+Force dissipation_in_volume_field("dissipation in volume", viscous_field, 1, true);
+double dissipation_in_volume = 1;
+dissipation_in_volume_field.AddParameter(&dissipation_in_volume);

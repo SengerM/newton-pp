@@ -10,13 +10,22 @@ if (i < I*.8) {
 	wall_positions[3] = Vec3D(0, -sqrt(current_volume)/2, 0);
 }
 
-if (sys.GetTime() > 1) {
+if (i == 0)  {
+	dissipation_factor = 20;
+	dissipation_in_volume = 0.1;
+}
+
+if (sys.GetTime() > 0.1) {
+	if ((sys.CalculateCenterOfMassPosition().GetY() + sqrt(INITIAL_VOLUME)/2)/sqrt(INITIAL_VOLUME) < 0.4 && ya_se_enfrio == 0) {
+		dissipation_in_volume = 0.3;
+	}
 	if (sys.CalculateKineticEnergy(sys.CalculateCenterOfMassVelocity()) < 0.1) {
-		dissipation_factor = -1;
+		dissipation_factor = -2;
+		dissipation_in_volume = 0;
 		ya_se_enfrio = 1;
 	}
 
-	if (ya_se_enfrio == 1 && sys.CalculateKineticEnergy(sys.CalculateCenterOfMassVelocity()) > 10) {
-		dissipation_factor = 0;
-	}
+//	if (ya_se_enfrio == 1 && sys.CalculateKineticEnergy(sys.CalculateCenterOfMassVelocity()) > 10) {
+//		dissipation_factor = 0;
+//	}
 }
