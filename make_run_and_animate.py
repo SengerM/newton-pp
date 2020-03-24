@@ -53,6 +53,7 @@ def plot_preview(newton_thread, sim_number):
 		ax.plot(data[0], data[1])
 		ax.set_xlabel('Time')
 		ax.set_ylabel('Energy')
+		ax.set_yscale('log')
 		fig.savefig('simulation_results/' + simulation_timestamp + '/energy.png')
 		plt.close(fig)
 
