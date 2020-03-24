@@ -99,6 +99,14 @@ int main(int argc, char** argv) {
 		sys.StepEuler(TIME_STEP);
 		if (i > TIME_TO_START_SAVING_DATA/TIME_STEP && (i%size_t((I-TIME_TO_START_SAVING_DATA/TIME_STEP)/N_EXPORT_POINTS) == 0) ) {
 			sys.WriteToBinary(path_str + "/data.bin");
+
+			std::ofstream ofile;
+			ofile.open(path_str + "/energy.txt", std::fstream::app);
+			ofile << std::scientific; // Sets scientific notation.
+			ofile << sys.GetTime() << "\t" << sys.CalculateKineticEnergy(sys.CalculateCenterOfMassVelocity()) << "\n";
+			ofile.close();
+			
+			cerr << ", t = " << sys.GetTime() << ", E = " << sys.CalculateKineticEnergy(sys.CalculateCenterOfMassVelocity()) << "\n";
 		}
 		if (((i*100)/I)%PERCENTAGE_PRINT_STEP == 0) {
 			print_percentage(i,I);

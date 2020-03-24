@@ -3,7 +3,7 @@
 	* Do not add or remove macros in this file. Just change their actual values but nothing more.
 */
 #define N_EXPORT_POINTS (2000*4/3)
-#define SIMULATION_TIME 4
+#define SIMULATION_TIME 5
 #define TIME_TO_START_SAVING_DATA 0
 #define TIME_STEP 0.00001
 #define PERCENTAGE_PRINT_STEP 1

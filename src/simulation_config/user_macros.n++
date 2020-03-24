@@ -1,6 +1,6 @@
 #include <cstdlib>
 
-#define N_PARTICLES 50
+#define N_PARTICLES 57
 
 #define _r0_ .25
 #define _r1_ 1
@@ -13,8 +13,8 @@
 #define INITIAL_VOLUME (_r1_*N_PARTICLES*0.5)
 #define FINAL_VOLUME (INITIAL_VOLUME)
 
-#define INITIAL_SPEED 10
+#define INITIAL_SPEED 0//10
 
-#define DISSIPATION_FACTOR 10
+#define DISSIPATION_FACTOR 0 // Unused!! See "loop_action.n++"
 
 #define GRAVITATIONAL_ACCELERATION 20
