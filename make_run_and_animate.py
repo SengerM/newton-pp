@@ -30,8 +30,6 @@ def get_timestamp():
 	time.sleep(10e-6) # This ensures that there will not exist two equal timestamps.
 	return timestamp
 
-simulation_timestamp = get_timestamp()
-
 def plot_preview(newton_thread, sim_number):
 	while newton_thread.isAlive():
 		while sim_number not in os.listdir('simulation_results'):
@@ -40,32 +38,36 @@ def plot_preview(newton_thread, sim_number):
 			time.sleep(1)
 		time.sleep(5)
 		
-		system = psys.gas('simulation_results/' + simulation_timestamp + '/data.bin')
+		system = psys.gas('simulation_results/' + sim_number + '/data.bin')
 		fig, ax = plot_snapshot(system, len(system.time)-1)
 		fig.savefig(
-			'simulation_results/' + simulation_timestamp + '/preview.png', 
+			'simulation_results/' + sim_number + '/preview.png', 
 			facecolor = 'black',
 		)
 		plt.close(fig)
 		
-		data = np.genfromtxt('simulation_results/' + simulation_timestamp + '/energy.txt').transpose()
+		data = np.genfromtxt('simulation_results/' + sim_number + '/energy.txt').transpose()
 		fig, ax = plt.subplots()
 		ax.plot(data[0], data[1])
 		ax.set_xlabel('Time')
 		ax.set_ylabel('Energy')
 		ax.set_yscale('log')
-		fig.savefig('simulation_results/' + simulation_timestamp + '/energy.png')
+		fig.savefig('simulation_results/' + sim_number + '/energy.png')
 		plt.close(fig)
 
-def run_newton_pp():
+def run_newton_pp(sim_number):
 	start = time.time()
-	os.system('./newton++ ' + simulation_timestamp)
+	os.system('./newton++ ' + sim_number)
 	end = time.time()
 	print('newton++ execution time was ' + str(end-start) + ' seconds')
 
+title = input('A title for this simulation? ')
+simulation_timestamp = get_timestamp() + ('_' + title.lower().replace(' ', '_') if title != '' else '')
+
 newton_thread = threading.Thread(
 	target = run_newton_pp, 
-	name = 'newton++'
+	name = 'newton++',
+	args = (simulation_timestamp,)
 )
 plotting_thread = threading.Thread(
 	target = plot_preview,
